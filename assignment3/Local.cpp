@@ -265,8 +265,8 @@ bool llvm::isInstructionTriviallyDead(Instruction *I) {
   // it is not trivially dead.
 
 
-	if (I->mayHaveSideEffects()){
-		return false;
+	if (!I->mayHaveSideEffects()){
+		return true;
 	}
 
 
@@ -294,6 +294,7 @@ bool llvm::isInstructionTriviallyDead(Instruction *I) {
   // MISSING: If the Instruction I is a call to free(), then it is
   //          trivially dead iff the LHS is a constant that is 
   //          either null or has undefined value.
+	// http://llvm.org/docs/doxygen/html/namespacellvm.html#a42a9f1e04ad580b344123c15dbb29d39
 	if (CallInst *ci = LLVM::isFreeCall(I, TLI)){
 		if (Constant *c = dyn_cast<Constant>(CI->getArgOperand(0))){
 			return c->isNullValue() || isa<UndefValue>(c);
