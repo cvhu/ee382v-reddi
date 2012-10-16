@@ -238,7 +238,9 @@ bool llvm::isInstructionTriviallyDead(Instruction *I) {
   // is a terminating instruction in a basic block, then 
   // I is not trivially dead.
 
-
+	if (!I->use_empty() || I->isTerminator()){
+		return false;
+	}
 
 
 
@@ -263,7 +265,9 @@ bool llvm::isInstructionTriviallyDead(Instruction *I) {
   // it is not trivially dead.
 
 
-
+	if (I->mayHaveSideEffects()){
+		return false;
+	}
 
 
 
@@ -279,13 +283,9 @@ bool llvm::isInstructionTriviallyDead(Instruction *I) {
     //          llvm predefined instructions) is at its lifetime 
     //            start or end (according to its ID), then 
     //          I is trivially dead iff the RHS of II is undefined.
-
-
-
-
-
-
-
+	if (II->getIntrinsicID() == llvm.lifetime.start || II->getIntrinsicID() == llvm.lifetime.end){
+		return isa<UndefValue>(II->get...);
+	}
   }
   
   if (extractMallocCall(I) || extractCallocCall(I)) 
@@ -294,16 +294,17 @@ bool llvm::isInstructionTriviallyDead(Instruction *I) {
   // MISSING: If the Instruction I is a call to free(), then it is
   //          trivially dead iff the LHS is a constant that is 
   //          either null or has undefined value.
+	if (CallInst *ci = LLVM::isFreeCall(I, TLI)){
+		if ()
+	}
 
-
-
+	
 
 
 
   // MISSING: If I is not trivially dead so far, then I 
-  //          is definitely note trivially dead.
-
-
+  //          is definitely not trivially dead.
+	return true;
 
 
 
