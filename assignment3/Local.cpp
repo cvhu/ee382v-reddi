@@ -238,7 +238,9 @@ bool llvm::isInstructionTriviallyDead(Instruction *I) {
   // is a terminating instruction in a basic block, then 
   // I is not trivially dead.
 
-
+	if (!I->use_empty() || I->isTerminator()){
+		return false;
+	}
 
 
 
@@ -263,7 +265,9 @@ bool llvm::isInstructionTriviallyDead(Instruction *I) {
   // it is not trivially dead.
 
 
-
+	if (!I->mayHaveSideEffects()){
+		return true;
+	}
 
 
 
@@ -279,13 +283,9 @@ bool llvm::isInstructionTriviallyDead(Instruction *I) {
     //          llvm predefined instructions) is at its lifetime 
     //            start or end (according to its ID), then 
     //          I is trivially dead iff the RHS of II is undefined.
-
-
-
-
-
-
-
+	if (II->getIntrinsicID() == Instrinsic::lifetime_start || II->getIntrinsicID() == Instrinsic::lifetime_end){
+		return isa<UndefValue>(II->getArgOperand(1));
+	}
   }
   
   if (extractMallocCall(I) || extractCallocCall(I)) 
@@ -294,16 +294,20 @@ bool llvm::isInstructionTriviallyDead(Instruction *I) {
   // MISSING: If the Instruction I is a call to free(), then it is
   //          trivially dead iff the LHS is a constant that is 
   //          either null or has undefined value.
+	// http://llvm.org/docs/doxygen/html/namespacellvm.html#a42a9f1e04ad580b344123c15dbb29d39
+	if (CallInst *ci = isFreeCall(I)){
+		if (Constant *c = dyn_cast<Constant>(CI->getArgOperand(0))){
+			return c->isNullValue() || isa<UndefValue>(c);
+		}
+	}
 
-
-
+	
 
 
 
   // MISSING: If I is not trivially dead so far, then I 
-  //          is definitely note trivially dead.
-
-
+  //          is definitely not trivially dead.
+	return false;
 
 
 
@@ -324,23 +328,34 @@ bool llvm::RecursivelyDeleteTriviallyDeadInstructions(Value *V) {
   
   do {
     // MISSING: Extract an instruction from I.
-
-
-
-
-
+	// http://llvm.org/docs/doxygen/html/classllvm_1_1SmallVectorImpl.html
+	I = DeadInsts.pop_back_val();
 
 
     // MISSING: Do a loop to iterate over all operands of I.
     //  For the ith operand op, set it to 0 (nullify) in I , 
     //  but keep a copy of its value in an
     //  auxiliary variable 'aux'.
-    //  If the use chain of 'aux' is empty, discard and continue
+    //  If the use chain of 'aux' is not empty, discard and continue
     //  to the next operand.
     //  If the Value aux (defining instruction) is a trivially 
     //  dead instruction, then the instruction associated to aux 
     //  becomes dead and is put into the worklist of DeadInsts.
-    
+
+	// http://llvm.org/docs/doxygen/html/classllvm_1_1Instruction.html#a237e6bf58bc993ea494bdde7480ca428
+	unsigned n = I->getNumOperands();
+	for (unsigned i = 0; i != n; ++i){
+		Value *aux = I->getOperand(i);
+		I->setOperand(i, 0);
+		
+		if (!aux->use_empty()){
+			continue;
+		}
+		
+		if (isInstructionTriviallyDead(I)){
+			DeadInsts.push_back(dyn_cast<Instruction>(aux));
+		}
+	}
 
 
 

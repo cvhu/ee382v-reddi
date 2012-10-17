@@ -98,14 +98,11 @@ bool DCE::runOnFunction(Function &F) {
   // MISSING: Push all of the instructions in function F into the 
   //          worklist.
 
-
-
-
-
-
-
-
-
+	// http://llvm.org/docs/ProgrammersManual.html	
+	inst_iterator n = inst_end(F);
+	for (inst_iterator i = inst_begin(F); i != n; ++i){
+		WorkList.push_back(&*i);
+	}
 
   // Loop over the worklist finding instructions that are dead.  If they are
   // dead make them drop all of their uses, making other instructions
@@ -116,14 +113,9 @@ bool DCE::runOnFunction(Function &F) {
 
 
     // MISSING: Extract an instruction I from the Worklist.
-
-
-
-
-
-
-
-
+	// http://www.cplusplus.com/reference/stl/vector/
+	Instruction *I = WorkList.back();
+	WorkList.pop_back();
 
     // MISSING: If I is trivially dead, then do all of the 
     //          following inside the code of your conditional:
@@ -146,7 +138,20 @@ bool DCE::runOnFunction(Function &F) {
     //             by one (DCEEliminated).
 
     
-
+	if (isInstructionTriviallyDead(I)){
+		User::op_iterator n = I->op_end();
+		for (User::op_iterator i = I->op_begin(); i != n; ++i){
+			WorkList.push_back(dyn_cast<Instruction>(*i));
+		}
+		I->eraseFromParent();
+		for (iterator i = WorkList.begin(); i != WorkList.end(); ++i){
+			if (*i == I){
+				WorkList.erase(i);
+			}
+		}
+		ModeChange = true;
+		++DCEEliminated;
+	}
 
 
 
