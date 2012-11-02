@@ -2,6 +2,8 @@ Welcome to the ee382v-reddi-project wiki!
 
 Let's put our field research summary here.
 
+<a href="https://www.dropbox.com/s/xmddn53x31iycaf/a_concurrent_trace.pdf"> the Javascript paper </a>
+
 ## Professor Reddi's papers on web search optimization ##
 
 <a href="http://users.ece.utexas.edu/~vjreddi/UT/Publications/Entries/2011/8/1_Mobile_Processors_for_Energy-Efficient_Web_Search%2C_In__i_IEEE_Transactions_on_Computer_Systems_(TOCS)__i_%2C_Vol._29%2C_No._4%2C_Article_9%2C_August_2011..html"> Mobile Processors for Energy-Efficient Web Search </a>
