@@ -5,6 +5,9 @@ Let's put our field research summary here.
 
 ## Javascript Profiling ##
 
+<a href="http://code.google.com/p/v8/"> V8 </a>
+
+<a href="http://blog.mozilla.org/javascript/2012/09/12/ionmonkey-in-firefox-18/"> IonMonkey</a>
 
 <a href="https://www.dropbox.com/sh/3dc9vzbykx8tsgf/Co7mmur_y3"> JSMeter papers </a>
 
