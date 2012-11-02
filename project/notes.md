@@ -2,6 +2,16 @@ Welcome to the ee382v-reddi-project wiki!
 
 Let's put our field research summary here.
 
+
+## Javascript Profiling ##
+
+
+<a href="https://www.dropbox.com/sh/3dc9vzbykx8tsgf/Co7mmur_y3"> JSMeter papers </a>
+
+<a href="http://www.ditii.com/2010/03/26/jsmeter-microsoft-research-project-measuring-javascript-web-applications-screencast/"> JSMeter Screencast </a>
+
+<a href="http://www.webkit.org/perf/sunspider/sunspider.html"> Sunspider Javascript Benchmark </a>
+
 <a href="https://docs.google.com/open?id=0B7k8gRZJ3pcARTZtdjBMbl9EWjg"> the Javascript paper </a>
 
 ## Professor Reddi's papers on web search optimization ##
