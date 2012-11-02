@@ -2,7 +2,7 @@ Welcome to the ee382v-reddi-project wiki!
 
 Let's put our field research summary here.
 
-<a href="https://www.dropbox.com/s/xmddn53x31iycaf/a_concurrent_trace.pdf"> the Javascript paper </a>
+<a href="https://docs.google.com/open?id=0B7k8gRZJ3pcARTZtdjBMbl9EWjg"> the Javascript paper </a>
 
 ## Professor Reddi's papers on web search optimization ##
 
