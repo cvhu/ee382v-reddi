@@ -5,6 +5,8 @@ Let's put our field research summary here.
 
 ## Javascript Profiling ##
 
+<a href="https://wiki.mozilla.org/JavaScript:TraceMonkey"> Tracemonkey</a>
+
 <a href="http://code.google.com/p/v8/"> V8 </a>
 
 <a href="http://blog.mozilla.org/javascript/2012/09/12/ionmonkey-in-firefox-18/"> IonMonkey</a>
