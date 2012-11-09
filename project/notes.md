@@ -2,6 +2,23 @@ Welcome to the ee382v-reddi-project wiki!
 
 Let's put our field research summary here.
 
+
+## Javascript Profiling ##
+
+<a href="https://wiki.mozilla.org/JavaScript:TraceMonkey"> Tracemonkey</a>
+
+<a href="http://code.google.com/p/v8/"> V8 </a>
+
+<a href="http://blog.mozilla.org/javascript/2012/09/12/ionmonkey-in-firefox-18/"> IonMonkey</a>
+
+<a href="https://www.dropbox.com/sh/3dc9vzbykx8tsgf/Co7mmur_y3"> JSMeter papers </a>
+
+<a href="http://www.ditii.com/2010/03/26/jsmeter-microsoft-research-project-measuring-javascript-web-applications-screencast/"> JSMeter Screencast </a>
+
+<a href="http://www.webkit.org/perf/sunspider/sunspider.html"> Sunspider Javascript Benchmark </a>
+
+<a href="https://docs.google.com/open?id=0B7k8gRZJ3pcARTZtdjBMbl9EWjg"> the Javascript paper </a>
+
 ## Professor Reddi's papers on web search optimization ##
 
 <a href="http://users.ece.utexas.edu/~vjreddi/UT/Publications/Entries/2011/8/1_Mobile_Processors_for_Energy-Efficient_Web_Search%2C_In__i_IEEE_Transactions_on_Computer_Systems_(TOCS)__i_%2C_Vol._29%2C_No._4%2C_Article_9%2C_August_2011..html"> Mobile Processors for Energy-Efficient Web Search </a>
