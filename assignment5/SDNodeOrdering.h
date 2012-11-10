@@ -39,12 +39,17 @@ public:
        Set 'Node' to O in OrderMap.
 
     */
+
+		// http://legup.eecg.utoronto.ca/doxygen/classllvm_1_1DenseMap.html
+
+		OrderMap[Node] = 0;
   }
   void remove(const SDNode *Node) {
     /*
       MISSING:
       Find 'Node' in OrderMap and eliminate it 
     */
+		OrderMap.erase(Node);
 
   }
   void clear() {
@@ -52,6 +57,7 @@ public:
        MISSING:
        Remove all nodes from OrderMap.
     */
+		OrderMap.clear();
 
   }
   unsigned getOrder(const SDNode *Node) {
@@ -59,6 +65,7 @@ public:
       MISSING:
       Return the ordering assigned to 'Node', according to OrderMap.
     */
+		return OrderMap[Node];
 
   }
 };
