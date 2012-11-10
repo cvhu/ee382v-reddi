@@ -2361,13 +2361,36 @@ SDValue SelectionDAG::getNode(unsigned Opcode, DebugLoc DL, EVT VT) {
 
   /* MISSING : 
 
-     1) UseAddNodeIDNode to add the new node, 
+     1) Use AddNodeIDNode to add the new node, 
        with a fresh ID of type FoldingSetNode
      2) Search for the node in CSEMap, and return it if it already exists.
      3) Create a new SDNode, and add it to CSEMap, and return it.
   */
 
+	/* 
+	static void AddNodeIDNode(FoldingSetNodeID &ID,
+	                          unsigned short OpC, SDVTList VTList,
+	                          const SDValue *OpList, unsigned N) {
+	  AddNodeIDOpcode(ID, OpC);
+	  AddNodeIDValueTypes(ID, VTList);
+	  AddNodeIDOperands(ID, OpList, N);
+	}
+	*/
 
+	FoldingSetNodeID fsnID;
+	
+	/* Mocking line 974 */
+	AddNodeIDNode(fsnID, Opcode, getVTList(VT), 0, 0);
+	
+	/* Mocking line 2621 */
+	void *IP = 0;
+    if (SDNode *E = CSEMap.FindNodeOrInsertPos(ID, IP))
+      return SDValue(E, 0);
+
+    SDNode *N = new (NodeAllocator) SDNode(Opcode, DL, getVTList(VT));
+    CSEMap.InsertNode(N, IP);
+	return SDValue(N, 0);
+    
 }
 
 SDValue SelectionDAG::getNode(unsigned Opcode, DebugLoc DL,
