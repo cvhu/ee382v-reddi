@@ -420,6 +420,10 @@ void ScheduleDAGTopologicalSort::InitDAGTopologicalSorting() {
   Index2Node.resize(DAGSize);
   Node2Index.resize(DAGSize);
 
+	for (int i = 0; i != DAGSize; ++i){
+		
+	}
+
 
 }
 

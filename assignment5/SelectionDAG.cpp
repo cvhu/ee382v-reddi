@@ -2389,8 +2389,7 @@ SDValue SelectionDAG::getNode(unsigned Opcode, DebugLoc DL, EVT VT) {
 
     SDNode *N = new (NodeAllocator) SDNode(Opcode, DL, getVTList(VT));
     CSEMap.InsertNode(N, IP);
-	return SDValue(N, 0);
-    
+	return SDValue(N, 0);    
 }
 
 SDValue SelectionDAG::getNode(unsigned Opcode, DebugLoc DL,
