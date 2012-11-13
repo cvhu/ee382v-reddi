@@ -42,7 +42,7 @@ public:
 
 		// http://legup.eecg.utoronto.ca/doxygen/classllvm_1_1DenseMap.html
 
-		OrderMap[Node] = 0;
+		OrderMap[Node] = O;
   }
   void remove(const SDNode *Node) {
     /*

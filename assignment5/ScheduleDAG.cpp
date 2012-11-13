@@ -403,22 +403,49 @@ unsigned ScheduleDAG::VerifyScheduledDAG(bool isBottomUp) {
 /// immediately after X in Index2Node.
 void ScheduleDAGTopologicalSort::InitDAGTopologicalSorting() {
 
-  /* MISSING :
-     - Implement topological sorting over the nodes in 'SUnits' acording 
+    /* MISSING :
+       - Implement topological sorting over the nodes in 'SUnits' acording 
        to the least latency heuristic, i.e. at each iteration, 
        the instruction with the least latency is selected.
 
-     1) Use the 'Allocate' function in this class to assign the topological ordering.
-     2) Iteratively select a node without predecessors, assign a topological index,
-        remove it , and process the successors without any incoming edges.
-  */
-     
-  unsigned DAGSize = SUnits.size();
-  std::vector<SUnit*> WorkList;
-  WorkList.reserve(DAGSize);
+       1) Use the 'Allocate' function in this class to assign the topological ordering.
+       2) Iteratively select a node without predecessors, assign a topological index,
+       remove it , and process the successors without any incoming edges.
+     */
 
-  Index2Node.resize(DAGSize);
-  Node2Index.resize(DAGSize);
+    unsigned DAGSize = SUnits.size();
+    std::vector<SUnit*> WorkList;
+    WorkList.reserve(DAGSize);
+
+    Index2Node.resize(DAGSize);
+    Node2Index.resize(DAGSize);
+
+    /*Initialize the WorkList with all leaf nodes
+     Also the map which contains the NumPreds
+     */
+    std::map<int, int> pred_degree;
+    for (unsigned i = 0, e = SUnits.size(); i != e; ++i) {
+        if (SUnits[i].NumPreds == 0) {
+            WorkList.push_back(&SUnits[i]);
+        }
+        pred_degree[SUnits[i].NodeNum] = SUnits[i].NumPreds;
+    }
+
+    int order = SUnits.size();
+    while (!WorkList.empty()){
+        SUnit* current = WorkList.back();
+        WorkList.pop_back();
+        Allocate(current->NodeNum, order);
+        order--;
+        for (int i = 0, e = current->Succs.size(); i < e; ++i) {
+            SUnit* succ = current->Succs[i].getSUnit();
+            pred_degree[succ->NodeNum]--;
+            if (pred_degree[succ->NodeNum] == 0){
+                WorkList.push_back(succ);
+            }
+
+        }
+    }
 
 	for (int i = 0; i != DAGSize; ++i){
 		
