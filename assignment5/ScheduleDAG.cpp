@@ -431,9 +431,9 @@ void ScheduleDAGTopologicalSort::InitDAGTopologicalSorting() {
         pred_degree[SUnits[i].NodeNum] = SUnits[i].NumPreds;
     }
 
-    int order = SUnits.size();
+    int order = DAGSize;
     while (!WorkList.empty()){
-        SUnit* current = WorkList.back();
+        SUnit * current = WorkList.back();
         WorkList.pop_back();
         Allocate(current->NodeNum, order);
         order--;
