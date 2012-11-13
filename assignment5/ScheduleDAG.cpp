@@ -423,12 +423,12 @@ void ScheduleDAGTopologicalSort::InitDAGTopologicalSorting() {
     /*Initialize the WorkList with all leaf nodes
      Also the map which contains the NumPreds
      */
-    std::map<int, int> pred_degree;
+    std::map<int, int> succ_degree;
     for (unsigned i = 0, e = SUnits.size(); i != e; ++i) {
-        if (SUnits[i].NumPreds == 0) {
+        if (SUnits[i].NumSuccs == 0) {
             WorkList.push_back(&SUnits[i]);
         }
-        pred_degree[SUnits[i].NodeNum] = SUnits[i].NumPreds;
+        succ_degree[SUnits[i].NodeNum] = SUnits[i].NumSuccs;
     }
 
     int order = SUnits.size();
@@ -437,11 +437,11 @@ void ScheduleDAGTopologicalSort::InitDAGTopologicalSorting() {
         WorkList.pop_back();
         Allocate(current->NodeNum, order);
         order--;
-        for (int i = 0, e = current->Succs.size(); i < e; ++i) {
-            SUnit* succ = current->Succs[i].getSUnit();
-            pred_degree[succ->NodeNum]--;
-            if (pred_degree[succ->NodeNum] == 0){
-                WorkList.push_back(succ);
+        for (int i = 0, e = current->Preds.size(); i < e; ++i) {
+            SUnit* pred = current->Preds[i].getSUnit();
+            succ_degree[pred->NodeNum]--;
+            if (succ_degree[pred->NodeNum] == 0){
+                WorkList.push_back(pred);
             }
 
         }
