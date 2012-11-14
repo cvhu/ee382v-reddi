@@ -8,7 +8,7 @@
 \usepackage{mdwmath}
 \usepackage{mdwtab}
 \usepackage{eqparbox}
-\usepackage[font=footnotesize]{subfig}
+\usepackage[font=footnotesize,caption=false]{subfig}
 \usepackage{fixltx2e}
 
 \begin{document}
@@ -27,34 +27,34 @@
 
 \begin{abstract}
 
-The abstract is the most crucial part of the report because anybody searching for your research on a database or in a journal will usually read only the abstract. Therefore, it must summarize your research, results and conclusions in typically 200 words.  Authors should follow a checklist consisting of: motivation, problem statement, approach, results, and conclusions. Following this checklist will more than likely increase the chances of people taking the time to obtain and read your complete paper. Abstracts serve the function of ``selling'' your work.
+
 
 \end{abstract}
 
 \section{Introduction}
 
-A typical Introduction includes four paragraphs. The first paragraph is the place for those wordy, eye catching phrases giving the reasons for and importance of the work, and why someone would want to read the paper. The second and third paragraphs contain a brief description of the background to the problem and the connection of the present work to the background. The final paragraph includes a clear statement of the purpose or goal of the work; it is an expansion from the Abstract, highlighting the contents of the paper with specific research outcomes and contributions. This will lead the readers smoothly into the start of the actual work of paper.
+As we know internet riches people's life with new and quick information. At the same time people spend more and more timing browsing various websites. How to make the webpages response faster and save people's time becomes important. Infrastructure of cables and servers definitely play an important role, but compilation optimization\cite{Trace} and arrange the HTML tree\cite{Popularity} make difference when the infrastructure is unchangable.
 
-One error that is frequently found in paper submittals is that little, if any, research was done by the authors to determine that the work is indeed new and original. No matter how well written the paper is, it will be rejected if it is not original. For obvious reasons, I am not going to be a stickler about this for the class project report. ­Nevertheless, researching the subject matter is a good fundamental engineering practice. Why would you want to spend time doing the work and writing it up if the answer is already known?
+In this work, we will tackle both compilation optimization and arrangement of the HTML tree to accelerate the web response. We use TraceMonkey to help build the trace information and several optimization techniques are applied based on the trace structure. We analyze the web site popularity from the HTTP log file and then revise the HTTP tree based on the popularity.
 
 \section{Motivation}
 
-Why do we care about the problem and the results? If the problem isn't obviously ``interesting'' it might be better to put motivation first; but if your work is incremental progress on a problem that is widely recognized as important, then it is probably better to put the problem statement first to indicate which piece of the larger problem you are breaking off to work on. This section should include the importance of your work, the difficulty of the area, and the impact it might have if successful. You can include data in this section that quantitatively motivates your research.
+
 
 \section{Approach}
 
-This sections needs to have solid {\it insights} about what is your solution and why your solution will work. In that process, you need to explain how you will go about solving or making progress on the problem? Are your insights based on the use of simulation, analytic models, prototype construction, or analysis of real data? What was the extent of your work (did you look at one application program or a hundred programs in twenty different programming languages?) What important variables did you control, ignore, or measure? What is the key insight in your technique? What is new and unique about the work you are doing that promises good results.
+
 
 
 \section{Results}
 
 \subsection{Experimental Framework}
 
-Always first explain your experimental setup before you proceed to show results. Outline any assumptions that you made, so that people don't misinterpret the results and dismiss your work.
+
 
 \subsection{Data}
 
-What's the usefulness? Specifically, most good computer architecture papers conclude that something is so many percent faster, cheaper, smaller, or otherwise better than something else. Put the result there, in numbers. Avoid vague, hand-waving results such as ``very'', ``small'', or ``significant.'' If you must be vague, you are only given license to do so when you can talk about orders-of-magnitude improvement. There is a tension here in that you should not provide numbers that can be easily misinterpreted, but on the other hand you don't have room for all the caveats. Use tables and figures to convey data.
+
 
 
 
@@ -78,21 +78,24 @@ Three & Four\\
 
 \section{Related Work}
 
-Please discuss all prior work that is related to the problem you are studying.
+
 
 \section{Conclusion}
 
-What are the implications of your answer? Is it going to change the world (unlikely, but if so I want to be the first to know!), be a significant ``win'', be a nice hack, or simply serve as a road sign indicating that this path is a waste of time (all of the previous results are useful). Are your results general, potentially generalizable, or specific to a particular case?
+
 
 \section*{Acknowledgment}
 
-The author thanks several valuable online resources and contributors for their content that led to this article.
 
 \begin{thebibliography}{1}
 
 \bibitem{IEEEhowto:kopka}
 H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
   0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+\bibitem{Trace}
+Jungwoo Ha and Mohammad R. Haghighat and Shengnan Cong, A concurrent trace-based just-in-time compiler for javascript, Tech Report, 2009
+\bibitem{Popularity}
+John Garofalakis and Panagiotis Kappos and Dimitris Mourloukos, Web site optimization using page popularity, Internet Computing, 1999
 
 \end{thebibliography}
 
