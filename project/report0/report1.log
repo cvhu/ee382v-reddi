@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  13 NOV 2012 11:13
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  14 NOV 2012 23:14
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -253,9 +253,6 @@ Package: eqparbox 2010/01/01 v3.1 Create equal-widthed boxes
 (/usr/local/texlive/2012/texmf-dist/tex/latex/subfig/subfig.sty
 Package: subfig 2005/06/28 ver: 1.3 subfig package
 
-(/usr/local/texlive/2012/texmf-dist/tex/latex/caption/caption.sty
-Package: caption 2012/02/19 v3.2f Customizing captions (AR)
-
 (/usr/local/texlive/2012/texmf-dist/tex/latex/caption/caption3.sty
 Package: caption3 2012/01/12 v1.4b caption3 kernel (AR)
 \captionmargin=\dimen139
@@ -267,42 +264,26 @@ Package: caption3 2012/01/12 v1.4b caption3 kernel (AR)
 Package caption Info: Unknown document class (or package),
 (caption)             standard defaults will be used.
 )
-
-Package caption Warning: Unsupported document class (or package) detected,
-(caption)                usage of the caption package is not recommended.
-See the caption package documentation for explanation.
-
-Package caption Info: \@makecaption = \long macro:#1#2->\ifx \@captype \@IEEEta
-blestring \footnotesize \begin {center}{\normalfont \footnotesize #1}\\{\normal
-font \footnotesize \scshape #2}\end {center}\@IEEEtablecaptionsepspace \else \@
-IEEEfigurecaptionsepspace \setbox \@tempboxa \hbox {\normalfont \footnotesize {
-#1.}~~ #2}\ifdim \wd \@tempboxa >\hsize \setbox \@tempboxa \hbox {\normalfont \
-footnotesize {#1.}~~ }\parbox [t]{\hsize }{\normalfont \footnotesize \noindent 
-\unhbox \@tempboxa #2}\else \ifCLASSOPTIONconference \hbox to\hsize {\normalfon
-t \footnotesize \hfil \box \@tempboxa \hfil }\else \hbox to\hsize {\normalfont 
-\footnotesize \box \@tempboxa \hfil }\fi \fi \fi .
-\c@ContinuedFloat=\count111
-)
-\c@KVtest=\count112
+\c@KVtest=\count111
 \sf@farskip=\skip55
 \sf@captopadj=\dimen145
 \sf@capskip=\skip56
 \sf@nearskip=\skip57
-\c@subfigure=\count113
-\c@subfigure@save=\count114
-\c@lofdepth=\count115
-\c@subtable=\count116
-\c@subtable@save=\count117
-\c@lotdepth=\count118
+\c@subfigure=\count112
+\c@subfigure@save=\count113
+\c@lofdepth=\count114
+\c@subtable=\count115
+\c@subtable@save=\count116
+\c@lotdepth=\count117
 \sf@top=\skip58
 \sf@bottom=\skip59
-) (/usr/local/texlive/2012/texmf-dist/tex/latex/base/fixltx2e.sty
+)
+(/usr/local/texlive/2012/texmf-dist/tex/latex/base/fixltx2e.sty
 Package: fixltx2e 2006/09/13 v1.1m fixes to LaTeX
 LaTeX Info: Redefining \em on input line 420.
 LaTeX Info: The control sequence `\[' is already robust on input line 471.
 LaTeX Info: The control sequence `\]' is already robust on input line 472.
-)
-(./report1.aux)
+) (./report1.aux)
 \openout1 = `report1.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 14.
@@ -317,19 +298,18 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 14.
 LaTeX Font Info:    ... okay on input line 14.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 14.
 LaTeX Font Info:    ... okay on input line 14.
-
-(/usr/local/texlive/2012/texmf-dist/tex/context/base/supp-pdf.mkii
+ (/usr/local/texlive/2012/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count119
+\scratchcounter=\count118
 \scratchdimen=\dimen146
 \scratchbox=\box30
-\nofMPsegments=\count120
-\nofMParguments=\count121
+\nofMPsegments=\count119
+\nofMParguments=\count120
 \everyMPshowfont=\toks24
-\MPscratchCnt=\count122
+\MPscratchCnt=\count121
 \MPscratchDim=\dimen147
-\MPnumerator=\count123
-\makeMPintoPDFobject=\count124
+\MPnumerator=\count122
+\makeMPintoPDFobject=\count123
 \everyMPtoPDFconversion=\toks25
 ) (/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
@@ -382,19 +362,7 @@ e
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
-Missing character: There is no Â in font ptmr7t!
-Missing character: There is no ­ in font ptmr7t!
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 69.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 69.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 69.
 
-[1{/usr/local/texlive/2012/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
-
-
-]
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -406,26 +374,28 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[2
+[1{/usr/local/texlive/2012/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
-] (./report1.aux) ) 
+
+
+]
+(./report1.aux) ) 
 Here is how much of TeX's memory you used:
- 4584 strings out of 493488
- 70353 string characters out of 3141326
- 140722 words of memory out of 3000000
- 7836 multiletter control sequences out of 15000+200000
- 37650 words of font info for 71 fonts, out of 3000000 for 9000
+ 4112 strings out of 493488
+ 62315 string characters out of 3141326
+ 128538 words of memory out of 3000000
+ 7375 multiletter control sequences out of 15000+200000
+ 31871 words of font info for 61 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
- 44i,8n,42p,683b,297s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/local/texlive/2012/texmf-dist/fonts/enc/dvips/base/8r.
-enc}</usr/local/texlive/2012/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/
-local/texlive/2012/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/tex
-live/2012/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2012/
-texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report1.pdf (2 pages, 53858 bytes).
+ 38i,8n,38p,858b,297s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/local/texlive/2012/texmf-dist/fonts/enc/dvips/base/8r.en
+c}</usr/local/texlive/2012/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/lo
+cal/texlive/2012/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texli
+ve/2012/texmf-dist/fonts/type1/urw/times/utmr8a.pfb>
+Output written on report1.pdf (1 page, 40300 bytes).
 PDF statistics:
- 28 PDF objects out of 1000 (max. 8388607)
- 19 compressed objects within 1 object stream
+ 21 PDF objects out of 1000 (max. 8388607)
+ 14 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
