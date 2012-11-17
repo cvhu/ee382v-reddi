@@ -49,7 +49,10 @@ public:
       MISSING:
       Find 'Node' in OrderMap and eliminate it 
     */
-		OrderMap.erase(Node);
+		DenseMap<const SDNode*, unsigned>::iterator Itr = OrderMap.find(Node);
+		if (Itr != OrderMap.end()){
+			OrderMap.erase(Node);
+		}		
 
   }
   void clear() {

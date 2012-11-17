@@ -425,32 +425,40 @@ void ScheduleDAGTopologicalSort::InitDAGTopologicalSorting() {
      */
     std::map<int, int> succ_degree;
     for (unsigned i = 0, e = SUnits.size(); i != e; ++i) {
-        if (SUnits[i].NumSuccs == 0) {
-            WorkList.push_back(&SUnits[i]);
+		SUnit *current = &SUnits[i];
+        if (current->Succs.size() == 0) {
+            WorkList.push_back(current);
         }
-        succ_degree[SUnits[i].NodeNum] = SUnits[i].NumSuccs;
+        succ_degree[current->NodeNum] = current->Succs.size();
     }
-
-    int order = DAGSize;
+	
+	int order = DAGSize;
+	int min_latency;
+	SUnit *selected;
     while (!WorkList.empty()){
-        SUnit * current = WorkList.back();
+        SUnit *current = WorkList.back();
         WorkList.pop_back();
         Allocate(current->NodeNum, order);
         order--;
-        for (int i = 0, e = current->Preds.size(); i < e; ++i) {
-            SUnit* pred = current->Preds[i].getSUnit();
-            succ_degree[pred->NodeNum]--;
-            if (succ_degree[pred->NodeNum] == 0){
-                WorkList.push_back(pred);
-            }
+		min_latency = 999;
+		selected = NULL;
+        for (SUnit::const_pred_iterator i = current->Preds.begin(), e = current->Preds.end(); i != e; ++i){
+            SUnit *pred = i->getSUnit();
+			int curr_latency = i->getLatency();
+			if (curr_latency < min_latency){
+				min_latency = curr_latency;
+				selected = pred;
+			}
+            // succ_degree[pred->NodeNum]--;
+            //             if (succ_degree[pred->NodeNum] == 0){
+            //                 WorkList.push_back(pred);
+            //             }
 
         }
+		if (selected){
+			WorkList.push_back(selected);
+		}
     }
-
-	for (int i = 0; i != DAGSize; ++i){
-		
-	}
-
 
 }
 

@@ -2384,7 +2384,7 @@ SDValue SelectionDAG::getNode(unsigned Opcode, DebugLoc DL, EVT VT) {
 	
 	/* Mocking line 2621 */
 	void *IP = 0;
-    if (SDNode *E = CSEMap.FindNodeOrInsertPos(ID, IP))
+    if (SDNode *E = CSEMap.FindNodeOrInsertPos(fsnID, IP))
       return SDValue(E, 0);
 
     SDNode *N = new (NodeAllocator) SDNode(Opcode, DL, getVTList(VT));
