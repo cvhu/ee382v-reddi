@@ -25,60 +25,60 @@
 
 namespace llvm {
 
-class SDNode;
+    class SDNode;
 
-/// SDNodeOrdering - Maps a unique (monotonically increasing) value to each
-/// SDNode that roughly corresponds to the ordering of the original LLVM
-/// instruction. This is used for turning off scheduling, because we'll forgo
-/// the normal scheduling algorithms and output the instructions according to
-/// this ordering.
-class SDNodeOrdering {
-  DenseMap<const SDNode*, unsigned> OrderMap;
+    /// SDNodeOrdering - Maps a unique (monotonically increasing) value to each
+    /// SDNode that roughly corresponds to the ordering of the original LLVM
+    /// instruction. This is used for turning off scheduling, because we'll forgo
+    /// the normal scheduling algorithms and output the instructions according to
+    /// this ordering.
+    class SDNodeOrdering {
+        DenseMap<const SDNode*, unsigned> OrderMap;
 
-  void operator=(const SDNodeOrdering&);   // Do not implement.
-  SDNodeOrdering(const SDNodeOrdering&);   // Do not implement.
-public:
-  SDNodeOrdering() {}
+        void operator=(const SDNodeOrdering&);   // Do not implement.
+        SDNodeOrdering(const SDNodeOrdering&);   // Do not implement.
+        public:
+        SDNodeOrdering() {}
 
-  void add(const SDNode *Node, unsigned O) {
-    /* MISSING :
-       
-       Set 'Node' to O in OrderMap.
+        void add(const SDNode *Node, unsigned O) {
+            /* MISSING :
 
-    */
+               Set 'Node' to O in OrderMap.
 
-		// http://legup.eecg.utoronto.ca/doxygen/classllvm_1_1DenseMap.html
+             */
 
-		OrderMap[Node] = O;
-  }
-  void remove(const SDNode *Node) {
-    /*
-      MISSING:
-      Find 'Node' in OrderMap and eliminate it 
-    */
-		DenseMap<const SDNode*, unsigned>::iterator Itr = OrderMap.find(Node);
-		if (Itr != OrderMap.end()){
-			OrderMap.erase(Node);
-		}		
+            // http://legup.eecg.utoronto.ca/doxygen/classllvm_1_1DenseMap.html
 
-  }
-  void clear() {
-    /* 
-       MISSING:
-       Remove all nodes from OrderMap.
-    */
-		OrderMap.clear();
+            OrderMap[Node] = O;
+        }
+        void remove(const SDNode *Node) {
+            /*
+MISSING:
+Find 'Node' in OrderMap and eliminate it 
+             */
+            DenseMap<const SDNode*, unsigned>::iterator Itr = OrderMap.find(Node);
+            if (Itr != OrderMap.end()){
+                OrderMap.erase(Itr);
+            }		
 
-  }
-  unsigned getOrder(const SDNode *Node) {
-    /*
-      MISSING:
-      Return the ordering assigned to 'Node', according to OrderMap.
-    */
-		return OrderMap[Node];
+        }
+        void clear() {
+            /* 
+MISSING:
+Remove all nodes from OrderMap.
+             */
+            OrderMap.clear();
 
-  }
-};
+        }
+        unsigned getOrder(const SDNode *Node) {
+            /*
+MISSING:
+Return the ordering assigned to 'Node', according to OrderMap.
+             */
+            return OrderMap[Node];
+
+        }
+    };
 
 } // end llvm namespace
 
