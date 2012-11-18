@@ -1,5 +1,11 @@
 //===-- SelectionDAG.cpp - Implement the SelectionDAG data structures -----===//
 //
+// 	   Name 1: Yilin Zhang
+//     UTEID 1: yz3383
+// 
+//     Name 2: Chinwei Hu
+//     UTEID 2: ch26773
+
 //                     The LLVM Compiler Infrastructure
 //
 // This file is distributed under the University of Illinois Open Source

@@ -1,4 +1,11 @@
 //===-- llvm/CodeGen/SDNodeOrdering.h - SDNode Ordering ---------*- C++ -*-===//
+
+// 	   Name 1: Yilin Zhang
+//     UTEID 1: yz3383
+// 
+//     Name 2: Chinwei Hu
+//     UTEID 2: ch26773
+
 //
 //                     The LLVM Compiler Infrastructure
 //
