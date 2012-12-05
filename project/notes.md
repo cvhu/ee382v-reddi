@@ -44,6 +44,8 @@
 *** d8 --trace-opt primes.js
 ** better code optimization decisions
 
+
+http://blog.chromium.org/2010/12/new-crankshaft-for-v8.html
 * Crankshaft
 ** Crankshaft uses adaptive compilation to improve both start-up time and peak performance. The idea is to heavily optimize code that is frequently executed and not waste time optimizing code that is not. 
 ** 1. base compiler
