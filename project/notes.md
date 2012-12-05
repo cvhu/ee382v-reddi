@@ -1,3 +1,65 @@
+## Presentation outline ##
+
+* Javascript
+** ECMAScript
+** Adobe Flash, Mac OS Dashboard widgets, Yahoo! widgets
+** Client-side scripting, DOM manipulation
+
+* Why V8?
+** Performance comparison
+** Fast property access
+*** JS is dynamic: object properties may be added/deleted on the fly
+*** dynamic lookup vs. hidden class
+*** the point example
+*** high degree of structure-sharing, no dictionary lookup, class-based optimization like inline caching
+** Dynamic machine code
+*** directly compiled into machine code
+*** no intermediate byte codes or interpreter
+*** inline cache code used for the hidden class if predicted correctly
+** Efficient garbage collection
+*** stops program execution
+*** processes only part of the object heap (minimizes impact)
+*** accurate objects and pointers locating in memory (avoids memory leaks)
+
+* V8
+** Google's open source JS engine
+** Written in C++ and used in Chrome
+** Implements ECMAScript
+** Can run standalone or embedded in C++ applications
+** Named after automobile engine
+** What does it do?
+*** JS execution and compilation
+*** memory allocation
+*** garbage collection
+
+* V8: 2 compilers
+** Full compiler
+*** compiles into machine code upon execution
+*** a very fast compiler that doesn't do any optimization
+** Optimizing compiler
+*** types taken from IC (inline caches)
+*** operations speculatively get inlined
+*** monomorphic functions and constructors can be inlined entirely
+*** inlining enables other optimizations
+*** d8 --trace-opt primes.js
+** better code optimization decisions
+
+* Crankshaft
+** Crankshaft uses adaptive compilation to improve both start-up time and peak performance. The idea is to heavily optimize code that is frequently executed and not waste time optimizing code that is not. 
+** 1. base compiler
+** 2. runtime profiler
+** 3. optimizing compiler
+** 4. Deopmization support
+
+* V8Profiler
+** Samples every millisecond
+** results in v8.log
+
+* Benchmarks
+** V8: http://v8.googlecode.com/svn/data/benchmarks/v7/run.html
+** Page cyclers: http://www.chromium.org/developers/testing/page-cyclers
+
+
 Welcome to the ee382v-reddi-project wiki!
 
 Let's put our field research summary here.

@@ -438,31 +438,32 @@ void ScheduleDAGTopologicalSort::InitDAGTopologicalSorting() {
     }
 	
 	int order = DAGSize;
-	int min_latency;
-	SUnit *selected;
+	// int min_latency;
+	// SUnit *selected;
     while (!WorkList.empty()){
         SUnit *current = WorkList.back();
         WorkList.pop_back();
         Allocate(current->NodeNum, order);
         order--;
-		min_latency = 999;
-		selected = NULL;
+		// min_latency = 999;
+		// selected = NULL;
         for (SUnit::const_pred_iterator i = current->Preds.begin(), e = current->Preds.end(); i != e; ++i){
             SUnit *pred = i->getSUnit();
-			int curr_latency = i->getLatency();
-			if (curr_latency < min_latency){
-				min_latency = curr_latency;
-				selected = pred;
-			}
-            // succ_degree[pred->NodeNum]--;
-            //             if (succ_degree[pred->NodeNum] == 0){
-            //                 WorkList.push_back(pred);
-            //             }
+			// int curr_latency = i->getLatency();
+			// if (curr_latency < min_latency){
+			// 	min_latency = curr_latency;
+			// 	selected = pred;
+			// }
+			
+            succ_degree[pred->NodeNum]--;
+            if (succ_degree[pred->NodeNum] == 0){
+                WorkList.push_back(pred);
+            }
 
         }
-		if (selected){
-			WorkList.push_back(selected);
-		}
+		// if (selected){
+		// 	WorkList.push_back(selected);
+		// }
     }
 
 }
