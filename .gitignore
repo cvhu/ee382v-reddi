@@ -10,5 +10,6 @@
 *.lai
 *.la
 *.a
-project/report0/report1.pdf
-project/report0/report1.log
+
+*.log
+*.pdf
