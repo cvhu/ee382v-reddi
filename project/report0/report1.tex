@@ -54,25 +54,32 @@ JavaScript is slow mainly due to JavaScript programs are untyped, and then compi
 	\caption{\scriptsize{\emph{Calculate the 25000th Prime Number}}}
 	 \label{algorithm:prime}
 	 \begin{algorithmic}[1]
-%		 \begin{scriptsize}
-%			 \REQUIRE {}
-			 \ENSURE {The 25000th Prime Number P}
-			 \STATE {Prime list PL = {}} 
-			 \FOR {P = 1 to infinity}
-			    \STATE {Flag = true}
-			    \FOR {index = 1 to PL.size()}
-			 	\IF {P\%PL[i] == 0}
-			            \STATE {Flag = false}
-			            \STATE {Continue}
-			        \ENDIF
-			    \ENDFOR
-			    \IF {Flag == true}
-			        \STATE {PL.push\_back(P)}
-			        \IF {PL.size() == 25000}
-			            \RETURN {PL.back()}
-			        \ENDIF
-			     \ENDIF
-			  \ENDFOR
+%		 \begin{scriptsize}			 
+%\If {$i\geq maxval$}
+%    \State $i\gets 0$
+%\Else
+%    \If {$i+k\leq maxval$}
+%        \State $i\gets i+k$
+%    \EndIf
+%\EndIf
+			\Require
+			 \Ensure {The 25000th Prime Number P}
+			 \State {Prime list PL = {}} 
+			 \For {P = 1 to infinity}
+			    \State {Flag = true}
+			    \For{index = 1 to PL.size()}
+			 	\If {P\%PL[i] == 0}
+			            \State {Flag = false}
+			            \State {Continue}
+			        \EndIf
+			    \EndFor
+			    \If {Flag == true}
+			        \State {PL.push\_back(P)}
+			        \If {PL.size() == 25000}
+			            \Return {PL.back()}
+			        \EndIf
+			     \EndIf
+			  \EndFor
 %		\end{scriptsize}
 	\end{algorithmic}
 \end{algorithm}
