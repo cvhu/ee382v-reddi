@@ -51,6 +51,10 @@ http://blog.chromium.org/2010/12/new-crankshaft-for-v8.html
 ** 1. base compiler
 ** 2. runtime profiler
 ** 3. optimizing compiler
+*** ssa
+*** loop-invariant code motion
+*** linear-scan register allocation
+*** inlining
 ** 4. Deopmization support
 
 * V8Profiler
