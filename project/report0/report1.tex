@@ -27,14 +27,16 @@
 \maketitle
 
 \begin{abstract}
-In this project, we want to focus on the trace profiling and possible optimization to the existing JIT JavaScript engines, such as IonMonkey and V8. By applying the optimization techniques we have learned in class, we want to study how modern browsers dynamically compile JavaScript, and to see if we can come up with a feasible idea to make some enhancements.
+
+In this course project, we want to focus on the trace profiling and optimizations in the V8 JavaScript Engine used in Google Chrome. By learning from their existing compiling infrastructure and optimization processes, we hope to extract the key essence out of the works done the V8 open source community, and to apply the optimization techniques covered in our class. Ultimately, we want to study what it takes to build a super fast JavaScript engine in the industry, and to see if we can come up with some feasible ideas to make some enhancements.
 
 \end{abstract}
 
 \section{Introduction}
-As the popularity of web-based applications and services increases, browser performance has become one of the major competitions in the industry. Since JavaScript is what makes modern web pages dynamic and interactive, how to optimize its compilation/interpretation is the key component to building fast and robust modern browsers. Apart from its essential role in client-side interactions, JavaScript also became one of the mainstream server-side solutions in recent years\cite{node}. 
 
-Although JavaScript is traditionally translated into byte code by an interpreter, more and more JavaScript Engines in modern browsers  are designed to compile directly into machine code. Our project will mainly focus on trace profiling\cite{Trace} in IonMonkey and V8, and make constructive adjustments according to the optimization techniques we have learned in class. We will use the SunSpider JavaScript Benchmark to measure and compare the existing infrastructure with our proposed optimizations, and make a sound analysis of the results. If time permitting, we will also look into JavaScript Engine solutions on mobile devices. Our overall goal is to understand the common optimization procedures performed by modern JavaScript Engines, as well as the possible performance enhancements with the knowledge we've acquired from EE382V. 
+
+
+Although JavaScript is traditionally translated into byte code by an interpreter, more and more JavaScript Engines in modern browsers  are designed to compile directly into machine code. Our project will mainly focus on trace profiling\cite{Trace} in V8, and making constructive adjustments according to the optimization techniques we have learned in class. We will use the SunSpider JavaScript benchmark and the V8 benchmark to measure and compare the existing infrastructures, and make a sound analysis of the results. Our overall goal is to understand the common optimization procedures performed by modern JavaScript Engines, as well as the possible performance enhancements with the knowledge we've acquired from EE382V. 
 
 %
 %As we know internet riches people's life with new and quick information. At the same time people spend more and more timing browsing various websites. How to make the webpages response faster and save people's time becomes important. Infrastructure of cables and servers definitely play an important role, but compilation optimization\cite{Trace} and arrange the HTML tree\cite{Popularity} make difference when the infrastructure is unchangable.
@@ -42,7 +44,29 @@ Although JavaScript is traditionally translated into byte code by an interpreter
 %In this work, we will tackle both compilation optimization and arrangement of the HTML tree to accelerate the web response. We use TraceMonkey to help build the trace information and several optimization techniques are applied based on the trace structure. We analyze the web site popularity from the HTTP log file and then revise the HTTP tree based on the popularity.
 
 %
-%\section{Motivation}
+\section{Motivation}
+JavaScript has been widely used in web-based applications to increase richer interactions and visualizations \cite{mcduffie} since it was first supported by Netscape 2 beta back in 1995 \cite{jshistory}. In over fiften years, it has evolved into a variety of frameworks and libraries to enable a more interactive and dynamic web browsing experience \cite{ajax}, or even to build high-performance network programs \cite{node}. Besides its applications in web-based softwares, JavaScript has also gained its popularity from applications such as Adobe Flash, Dashboard widgets in Mac OSX, browser extensions, and web bookmarklets. Apart from its essential role in client-side interactions, JavaScript also became one of the mainstream server-side solutions in recent years\cite{node}. 
+
+As the popularity of web-based applications and services increases, browser performance has become one of the major competitions in the industry. Since JavaScript is what makes modern web pages dynamic and interactive, how to optimize its compilation/interpretation is the key component to building fast and robust modern browsers. In the following figures, we compared modern web browsers on two JavaScript benchmarks, including Chrome Canary, Chrome, Firefox, Safari, and Opera.
+
+\begin{figure}[hbt!]
+	\label{figure:prime}
+	 \includegraphics[width=0.5\textwidth]{figs/v8_benchmark.png}
+    \caption{(a) is the C++ code of calculating the 25000th prime number (b) is the JavaScript code for 25000th prime number.}
+\end{figure}
+
+\begin{figure}[hbt!]
+	\label{figure:prime}
+	 \includegraphics[width=0.5\textwidth]{figs/sunspider_benchmark.png}
+    \caption{(a) is the C++ code of calculating the 25000th prime number (b) is the JavaScript code for 25000th prime number.}
+\end{figure}
+
+
+\section{Background of V8 Engine}
+
+
+
+\section{Approach}
 
 JavaScript is slow mainly due to JavaScript programs are untyped, and then compiled and run on the fly. Dynamic compilation is a great complement to static one. But completely replacing the optimized-to-death static compilation with JIT will lose the performance. 
 %
@@ -85,10 +109,16 @@ JavaScript is slow mainly due to JavaScript programs are untyped, and then compi
 \end{algorithm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Approach}
+
 JavaScript is slower compared with other programming languages, such as C++. Before applying the optimization to the compilation of JavaScript code, we use one example to analyze how slow JavaScript is compared with the same code in C++. The example we use here is to calculate the 25000th prime number\cite{google_IO}. The overall algorithm of of calculating the 25000th prime number is illustrated in Algorithm\ref{algorithm:prime}.
 The corresponding C++ code is in the Fig.\ref{figure:prime_cplusplus} while the JavaScript version is in the Fig.\ref{figure:JavaScript}.
 
+
+\section{Results}
+
+\section{Conclusion}
+
+\section{Acknoledgment}
 %figure-----------------------------
 %bottom because this figure will generate a big white space between caption and text
 %\begin{figure}[hbt!]
@@ -157,6 +187,14 @@ The corresponding C++ code is in the Fig.\ref{figure:prime_cplusplus} while the 
 
 \begin{thebibliography}{1}
 
+\bibitem{jshistory}
+Eich, Brendan. "JavaScript at ten years." ACM SIGPLAN Notices. Vol. 40. No. 9. ACM, 2005.
+\bibitem{mcduffie}
+McDuffie, Tina. JavaScript Concepts \& Techniques: Programming Interactive Web Sites. Franklin Beedle \& Associates, 2003.
+\bibitem{ajax}
+Serrano, Nicol‡s, and Juan Pablo Aroztegi. "Ajax frameworks in interactive web apps." Software, IEEE 24.5 (2007): 12-14.
+\bibitem{node}
+Tilkov, Stefan, and Steve Vinoski. "Node. js: Using JavaScript to build high-performance network programs." Internet Computing, IEEE 14.6 (2010): 80-83.
 %\bibitem{IEEEhowto:kopka}
 %H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
 %  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
