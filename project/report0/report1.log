@@ -1,7 +1,6 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  14 NOV 2012 23:14
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  11 DEC 2012 15:08
 entering extended mode
- \write18 enabled.
- file:line:error style messages enabled.
+ restricted \write18 enabled.
  %&-line parsing enabled.
 **report1.tex
 (./report1.tex
@@ -200,16 +199,30 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
 LaTeX Info: Redefining \[ on input line 2666.
 LaTeX Info: Redefining \] on input line 2667.
 )
-(/usr/local/texlive/2012/texmf-dist/tex/latex/algorithms/algorithmic.sty
-Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
+(/usr/local/texlive/2012/texmf-dist/tex/latex/algorithms/algorithm.sty
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
+nment
 
+(/usr/local/texlive/2012/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count104
+\float@exts=\toks21
+\float@box=\box29
+\@float@everytoks=\toks22
+\@floatcapt=\box30
+)
 (/usr/local/texlive/2012/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
-\c@ALC@unique=\count104
-\c@ALC@line=\count105
-\c@ALC@rem=\count106
-\c@ALC@depth=\count107
+\@float@every@algorithm=\toks23
+\c@algorithm=\count105
+)
+(/usr/local/texlive/2012/texmf-dist/tex/latex/algorithms/algorithmic.sty
+Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
+\c@ALC@unique=\count106
+\c@ALC@line=\count107
+\c@ALC@rem=\count108
+\c@ALC@depth=\count109
 \ALC@tlm=\skip47
 \algorithmicindent=\skip48
 )
@@ -217,21 +230,21 @@ Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
 \col@sep=\dimen128
 \extrarowheight=\dimen129
-\NC@list=\toks21
+\NC@list=\toks24
 \extratabsurround=\skip49
 \backup@length=\skip50
 )
 (/usr/local/texlive/2012/texmf-dist/tex/latex/mdwtools/mdwmath.sty
 Package: mdwmath 1996/04/11 1.1 Nice mathematical things
-\sq@sqrt=\count108
+\sq@sqrt=\count110
 LaTeX Info: Redefining \sqrt on input line 84.
 )
 (/usr/local/texlive/2012/texmf-dist/tex/latex/mdwtools/mdwtab.sty
 Package: mdwtab 1998/04/28 1.9 Table typesetting with style
-\tab@state=\count109
-\tab@columns=\count110
-\tab@preamble=\toks22
-\tab@shortline=\toks23
+\tab@state=\count111
+\tab@columns=\count112
+\tab@preamble=\toks25
+\tab@shortline=\toks26
 \extrarowheight=\dimen130
 \tabextrasep=\dimen131
 \arrayextrasep=\dimen132
@@ -242,7 +255,7 @@ Package: mdwtab 1998/04/28 1.9 Table typesetting with style
 \tab@endheight=\dimen137
 \tab@leftskip=\skip51
 \tab@rightskip=\skip52
-\fn@notes=\box29
+\fn@notes=\box31
 \fn@width=\dimen138
 )
 (/usr/local/texlive/2012/texmf-dist/tex/latex/eqparbox/eqparbox.sty
@@ -264,17 +277,17 @@ Package: caption3 2012/01/12 v1.4b caption3 kernel (AR)
 Package caption Info: Unknown document class (or package),
 (caption)             standard defaults will be used.
 )
-\c@KVtest=\count111
+\c@KVtest=\count113
 \sf@farskip=\skip55
 \sf@captopadj=\dimen145
 \sf@capskip=\skip56
 \sf@nearskip=\skip57
-\c@subfigure=\count112
-\c@subfigure@save=\count113
-\c@lofdepth=\count114
-\c@subtable=\count115
-\c@subtable@save=\count116
-\c@lotdepth=\count117
+\c@subfigure=\count114
+\c@subfigure@save=\count115
+\c@lofdepth=\count116
+\c@subtable=\count117
+\c@subtable@save=\count118
+\c@lotdepth=\count119
 \sf@top=\skip58
 \sf@bottom=\skip59
 )
@@ -286,116 +299,10 @@ LaTeX Info: The control sequence `\]' is already robust on input line 472.
 ) (./report1.aux)
 \openout1 = `report1.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
- (/usr/local/texlive/2012/texmf-dist/tex/context/base/supp-pdf.mkii
-[Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count118
-\scratchdimen=\dimen146
-\scratchbox=\box30
-\nofMPsegments=\count119
-\nofMParguments=\count120
-\everyMPshowfont=\toks24
-\MPscratchCnt=\count121
-\MPscratchDim=\dimen147
-\MPnumerator=\count122
-\makeMPintoPDFobject=\count123
-\everyMPtoPDFconversion=\toks25
-) (/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
-Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
-)
-
-(/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/ifluatex.sty
-Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
-Package ifluatex Info: LuaTeX not detected.
-)
-(/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/ifpdf.sty
-Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
-Package ifpdf Info: pdfTeX in PDF mode is detected.
-)
-Package pdftexcmds Info: LuaTeX not detected.
-Package pdftexcmds Info: \pdf@primitive is available.
-Package pdftexcmds Info: \pdf@ifprimitive is available.
-Package pdftexcmds Info: \pdfdraftmode found.
-)
-(/usr/local/texlive/2012/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
-Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
-
-(/usr/local/texlive/2012/texmf-dist/tex/latex/oberdiek/grfext.sty
-Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
-
-(/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
-Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
-))
-(/usr/local/texlive/2012/texmf-dist/tex/latex/oberdiek/kvoptions.sty
-Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
-
-(/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
-Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
-
-(/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/etexcmds.sty
-Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
-Package etexcmds Info: Could not find \expanded.
-(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
-(etexcmds)             that some package has redefined \expanded.
-(etexcmds)             In the latter case, load this package earlier.
-)))
-Package grfext Info: Graphics extension search list:
-(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
-G,.JBIG2,.JB2,.eps]
-(grfext)             \AppendGraphicsExtensions on input line 452.
-
-(/usr/local/texlive/2012/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
-File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
-e
-))
-Package caption Info: Begin \AtBeginDocument code.
-Package caption Info: subfig package v1.3 is loaded.
-Package caption Info: End \AtBeginDocument code.
-
-
-** Conference Paper **
-Before submitting the final camera ready copy, remember to:
-
- 1. Manually equalize the lengths of two columns on the last page
- of your paper;
-
- 2. Ensure that any PostScript and/or PDF output post-processing
- uses only Type 1 fonts and that every step in the generation
- process uses the appropriate paper size.
-
-[1{/usr/local/texlive/2012/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
-
-
-
-]
-(./report1.aux) ) 
-Here is how much of TeX's memory you used:
- 4112 strings out of 493488
- 62315 string characters out of 3141326
- 128538 words of memory out of 3000000
- 7375 multiletter control sequences out of 15000+200000
- 31871 words of font info for 61 fonts, out of 3000000 for 9000
- 957 hyphenation exceptions out of 8191
- 38i,8n,38p,858b,297s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/local/texlive/2012/texmf-dist/fonts/enc/dvips/base/8r.en
-c}</usr/local/texlive/2012/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/lo
-cal/texlive/2012/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texli
-ve/2012/texmf-dist/fonts/type1/urw/times/utmr8a.pfb>
-Output written on report1.pdf (1 page, 40300 bytes).
-PDF statistics:
- 21 PDF objects out of 1000 (max. 8388607)
- 14 compressed objects within 1 object stream
- 0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
-
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/
