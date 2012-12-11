@@ -3,6 +3,7 @@
 \usepackage{cite}
 \usepackage{url}
 \usepackage[cmex10]{amsmath}
+\usepackage{algorithm}
 \usepackage{algorithmic}
 \usepackage{array}
 \usepackage{mdwmath}
@@ -42,6 +43,58 @@ Although JavaScript is traditionally translated into byte code by an interpreter
 
 %
 %\section{Motivation}
+
+JavaScript is slow mainly due to JavaScript programs are untyped, and then compiled and run on the fly. Dynamic compilation is a great complement to static one. But completely replacing the optimized-to-death static compilation with JIT will lose the performance. 
+%
+%
+
+%%%%%%Prime Algorithm starts here%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{algorithm}[hbt!]
+\caption{\scriptsize{\emph{Calculate the 25000th Prime Number}}}
+ \label{algorithm:prime}
+ \begin{algorithmic}[1]
+ \begin{scriptsize}
+ \REQUIRE {}
+ \ENSURE {The 25000th Prime Number P}
+ \STATE {Prime list PL = {}} 
+ \FOR {P = 1 to infinity}
+    \STATE {Flag = true}
+    \FOR {index = 1 to PL.size()}
+ 		\IF {P\%PL[i] == 0}
+            \STATE {Flag = false}
+            \STATE {Continue}
+        \ENDIF
+    \ENDFOR
+    \IF {Flag == true}
+        \STATE {PL.push\_back(P)}
+        \IF {PL.size() == 25000}
+            \RETURN {PL.back()}
+        \ENDIF
+     \ENDIF
+\end{scriptsize}
+\end{algorithmic}
+\end{algorithm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Approach}
+JavaScript is slower compared with other programming languages, such as C++. Before applying the optimization to the compilation of JavaScript code, we use one example to analyze how slow JavaScript is compared with the same code in C++. The example we use here is to calculate the 25000th prime number\cite{google_IO}. The overall algorithm of of calculating the 25000th prime number is illustrated in Algorithm\ref{algorithm:prime}.
+The corresponding C++ code is in the Fig.\ref{figure:prime_cplusplus} while the JavaScript version is in the Fig.\ref{figure:JavaScript}.
+
+%figure-----------------------------
+%bottom because this figure will generate a big white space between caption and text
+\begin{figure}[hbt!]
+		\label{figure:prime}
+         \centering\subfigure[]{%in [] it for caption
+            \label{figure:prime_cplusplus}
+            \includegraphics[width=0.2\textwidth]{figs/prime_cplusplus}
+        }
+        \centering\subfigure[]{
+           \label{figure:prime_JavaScript}
+           \includegraphics[width=0.2\textwidth]{figs/prime_JavaScript}
+        }\\ %  ------- End of the first row ----------------------%
+    \caption{(a) is the C++ code of calculating the 25000th prime number (b) is the JavaScript code for 25000th prime number.}
+\end{figure}
+%end--figure-----------------------------
+=======
 %
 %
 %
@@ -49,6 +102,7 @@ Although JavaScript is traditionally translated into byte code by an interpreter
 %
 %
 %
+
 %
 %\section{Results}
 %
