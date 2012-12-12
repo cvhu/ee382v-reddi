@@ -15,6 +15,7 @@
 \usepackage{graphicx}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{threeparttable}
 
 \begin{document}
 
@@ -119,13 +120,7 @@ Both the hidden classes techniques and the machine code generation provide benef
 
 \subsubsection{Deoptimization support}
 
-\section{Approach}
-JavaScript is slow mainly due to JavaScript programs are untyped, and then compiled and run on the fly. Dynamic compilation is a great complement to static one. But completely replacing the optimized-to-death static compilation with JIT will lose the performance. 
-%
-%
-
 %%%%%%Prime Algorithm starts here%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \begin{algorithm}[hbt!]
 	\caption{\scriptsize{\emph{Calculate the $25000$th Prime Number}}}
 	 \label{algorithm:prime}
@@ -161,9 +156,8 @@ JavaScript is slow mainly due to JavaScript programs are untyped, and then compi
 \end{algorithm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-JavaScript is slower compared with other programming languages, such as C++. Before applying the optimization to the compilation of JavaScript code, we used one example to demonstrate how slow JavaScript was compared with C++. 
-
+\section{Approach}
+JavaScript is slow mainly due to JavaScript programs are untyped, and then compiled and run on the fly. Dynamic compilation is a great complement to static one. But completely replacing the optimized-to-death static compilation with JIT will lose the performance. 
 \begin{figure}[h]	
          \centering
          \begin{subfigure}[H]{0.66\textwidth}%in [] it for caption
@@ -180,7 +174,7 @@ JavaScript is slower compared with other programming languages, such as C++. Bef
     	\caption{the code of calculating the $25000$th prime number}
     	\label{figure:prime}
 \end{figure}
-
+JavaScript is slower compared with other programming languages, such as C++. Before applying the optimization to the compilation of JavaScript code, we used one example to demonstrate how slow JavaScript was compared with C++. 
 %\begin{figure}[hbt!]
 %    \centering
 %        \subfigure[]{
@@ -194,13 +188,17 @@ JavaScript is slower compared with other programming languages, such as C++. Bef
 %    \caption{(a) was the C++ code of calculating the $25000$th prime number (b) was the JavaScript code for $25000$th prime number.}
 %	\label{figure:prime}
 % \end{figure}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.54\textwidth]{figs/prime_profiling}
+    \caption{ }
+    \label{figure:prime_profiling}
+ \end{figure}
 
- 
 The example here was to calculate the $25000$th prime number\cite{googleIO}. The overall algorithm of calculating the $25000$th prime number was illustrated in Algorithm\ref{algorithm:prime}.
 The C++ code implementing the algorithm was in the Fig.\ref{figure:prime_cplusplus} while the JavaScript version was in the Fig.\ref{figure:prime_JavaScript}.
 Running these two different versions of code on the same machine showed that the runtime of C++ code was 5x faster than the JavaScript code. To find the reason of poor performance of the JavaScript code, we performed a profiling on the JavaScript code to determine the runtime of each function.
 First, We executed the command in \eqref{eq:1} to get the log file with profiling information. 
-
 \begin{align}
   \scriptsize & ./out/ia32.release/d8 samples/primes.js --prof\label{eq:1}
 \end{align}
@@ -210,27 +208,52 @@ Second, \eqref{eq:2} was applied to get the extract the runtime information of e
 \end{align}
 The output of \eqref{eq:2} provides us the runtime of each function in the JavaScript code, as in Fig.\ref{figure:prime_profiling}.
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.54\textwidth]{figs/prime_profiling}
-    \caption{ }
-    \label{figure:prime_profiling}
- \end{figure}
 
 Beyond our expectation, the most runtime was not spent on the main function. The main function only consumed less than 12\% of the total runtime while about 30\% of the total runtime was spent on the function env\_access\_off. With this hint, we noticed that the access of the last element, this.prime[this.prime\_count], was out of the range of identified prime numbers. 
 Though with this incorrect access, JavaScript could still give the correct $25000$th prime number - 287107, the runtime increased drametically.
 
 By correcting the access range in the isPrimeDivisible function, the new run time was only about 1.17 times of the C++ code. This improvement illustrated that JavaScript was slower tan C++, but was not much slower. 
 The profiling with the out-of-bounds fixed was in Fig.\ref{figure:prime_profiling_2}. From the new profiling, we could observe that more than 99\% was spent on the main function.
-%\begin{figure}[H]
-%    \centering
-%    \includegraphics[width=0.54\textwidth]{figs/prime_profiling_2}
-%    \caption{ }
-%    \label{figure:prime_profiling_2}
-%\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.54\textwidth]{figs/prime_profiling_2}
+    \caption{ }
+    \label{figure:prime_profiling_2}
+\end{figure}
 
 
 \section{Results}
+The experiments are conducted on an Intel Core i7 2.3GHz Mac OS X  with 8GB memory.
+In Table~\ref{table:result1}, we compare the runtime of the C++ code with the JavaScript version in Fig.\ref{figure:prime}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\vspace{-0.2in}
+%\begin{table*} [hbt!]
+\begin{table*} [hbt!]
+%\vspace{-0.1in}
+\centering
+\caption{Comparisons between C++, JavaScript and Improved JavaScript}
+\label{table:result1}
+\begin{threeparttable}
+\begin{scriptsize}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+Benchmarks & \multicolumn{3}{|c}{C++} & \multicolumn{4}{|c}{JavaScript} & \multicolumn{4}{|c|}{Improved JavaScript}\\
+\cline{2-12}
+           & real (s)& user (s) & sys (s)& real (s)& user (s) & sys (s)& \% of main & real (s)& user (s) & sys (s)& \% of main\\
+\hline
+\end{tabular}
+\end{scriptsize}
+%\begin{tablenotes}
+%\begin{scriptsize}
+%\item [a] Each WDM trunk has up to 32 available channels at initial placement. Unassigned trunks will be turned off after routing.
+%\item [b] Unassigned WDM channels will be turned off (no laser input from off-chip) in the global routing stage.
+%\item [c] Total power consumption is normalized to the power consumed on CK1 by \emph{GLOW}.
+%\end{scriptsize}
+%\end{tablenotes}
+\end{threeparttable}
+\vspace{-0.2in}
+\end{table*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Conclusion}
 
