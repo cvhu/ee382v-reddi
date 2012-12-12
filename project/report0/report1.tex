@@ -1,5 +1,4 @@
 \documentclass[conference]{IEEEtran}
-\usepackage{graphicx}
 \usepackage{cite}
 \usepackage{url}
 \usepackage[cmex10]{amsmath}
@@ -9,7 +8,8 @@
 \usepackage{mdwmath}
 \usepackage{mdwtab}
 \usepackage{eqparbox}
-\usepackage[font=footnotesize,caption=false]{subfig}
+\usepackage{graphicx,subfigure}
+\usepackage {epsfig}
 \usepackage{fixltx2e}
 
 \begin{document}
@@ -64,11 +64,11 @@ JavaScript is slow mainly due to JavaScript programs are untyped, and then compi
 %\EndIf
 			\Require
 			 \Ensure {The 25000th Prime Number P}
-			 \State {Prime list PL = {}} 
+			 \State {Prime list PL = \{\}} 
 			 \For {P = 1 to infinity}
 			    \State {Flag = true}
 			    \For{index = 1 to PL.size()}
-			 	\If {P\%PL[i] == 0}
+			 	\If {P.mod(PL[i]) == 0}
 			            \State {Flag = false}
 			            \State {Continue}
 			        \EndIf
@@ -89,22 +89,19 @@ JavaScript is slow mainly due to JavaScript programs are untyped, and then compi
 JavaScript is slower compared with other programming languages, such as C++. Before applying the optimization to the compilation of JavaScript code, we use one example to analyze how slow JavaScript is compared with the same code in C++. The example we use here is to calculate the 25000th prime number\cite{google_IO}. The overall algorithm of of calculating the 25000th prime number is illustrated in Algorithm\ref{algorithm:prime}.
 The corresponding C++ code is in the Fig.\ref{figure:prime_cplusplus} while the JavaScript version is in the Fig.\ref{figure:JavaScript}.
 
-%figure-----------------------------
-%bottom because this figure will generate a big white space between caption and text
-%\begin{figure}[hbt!]
-%		\label{figure:prime}
-%         \centering\subfigure[]{%in [] it for caption
-%            \label{figure:prime_cplusplus}
-%            \includegraphics[width=0.2\textwidth]{figs/prime_cplusplus}
-%        }
-%        \centering\subfigure[]{
-%           \label{figure:prime_JavaScript}
-%           \includegraphics[width=0.2\textwidth]{figs/prime_JavaScript}
-%        }\\ %  ------- End of the first row ----------------------%
-%    \caption{(a) is the C++ code of calculating the 25000th prime number (b) is the JavaScript code for 25000th prime number.}
-%\end{figure}
-%end--figure-----------------------------
-=======
+\begin{figure}[hbt!]
+	\label{figure:prime}
+    \centering
+        \subfigure[]{
+            \label{figure:prime_cplusplus}
+            \includegraphics[width=0.44\textwidth]{figs/prime_cplusplus}
+        }
+        \subfigure[]{
+           \label{figure:prime_JavaScript}
+           \includegraphics[width=0.44\textwidth]{figs/prime_JavaScript}
+        }
+    \caption{(a) is the C++ code of calculating the 25000th prime number (b) is the JavaScript code for 25000th prime number.}
+ \end{figure}
 %
 %
 %
@@ -137,42 +134,42 @@ The corresponding C++ code is in the Fig.\ref{figure:prime_cplusplus} while the 
 %\begin{tabular}{|c||c|}
 %\hline
 %One & Two\\
-%\hline
-%Three & Four\\
-%\hline
-%\end{tabular}
-%\end{table}
-%\renewcommand{\arraystretch}{1}
-%
-%\section{Related Work}
-%
-%
-%
-%\section{Conclusion}
-%
-%
-%
-%\section*{Acknowledgment}
+        %\hline
+        %Three & Four\\
+            %\hline
+            %\end{tabular}
+            %\end{table}
+            %\renewcommand{\arraystretch}{1}
+            %
+            %\section{Related Work}
+            %
+            %
+            %
+            %\section{Conclusion}
+            %
+            %
+            %
+            %\section*{Acknowledgment}
 
 
-\begin{thebibliography}{1}
+            \begin{thebibliography}{1}
 
-%\bibitem{IEEEhowto:kopka}
-%H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
-%  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
-\bibitem{Trace}
-Jungwoo Ha and Mohammad R. Haghighat and Shengnan Cong, A concurrent trace-based just-in-time compiler for javascript, Tech Report, 2009
-\bibitem{Popularity}
-John Garofalakis and Panagiotis Kappos and Dimitris Mourloukos, Web site optimization using page popularity, Internet Computing, 1999
-\bibitem{node}
-"Why Everyone Is Talking About Node." Jolie O'Dell. Mashable, Inc., Web. 10 Mar. 2011.
+            %\bibitem{IEEEhowto:kopka}
+            %H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
+            %  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+            \bibitem{Trace}
+            Jungwoo Ha and Mohammad R. Haghighat and Shengnan Cong, A concurrent trace-based just-in-time compiler for javascript, Tech Report, 2009
+            \bibitem{Popularity}
+            John Garofalakis and Panagiotis Kappos and Dimitris Mourloukos, Web site optimization using page popularity, Internet Computing, 1999
+            \bibitem{node}
+            "Why Everyone Is Talking About Node." Jolie O'Dell. Mashable, Inc., Web. 10 Mar. 2011.
 
-\end{thebibliography}
-
-
+            \end{thebibliography}
 
 
-% that's all folks
-\end{document}
+
+
+            % that's all folks
+            \end{document}
 
 
