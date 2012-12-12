@@ -33,7 +33,9 @@
 
 \begin{abstract}
 
-In this course project, we want to focus on the trace profiling and optimizations in the V8 JavaScript Engine used in Google Chrome. By learning from their existing compiling infrastructure and optimization processes, we hope to extract the key essence out of the works done the V8 open source community, and to apply the optimization techniques covered in our class. Ultimately, we want to study what it takes to build a super fast JavaScript engine in the industry, and to see if we can come up with some feasible ideas to make some enhancements.
+In this course project, we want to focus on the trace profiling and optimizations in the V8 JavaScript Engine used in Google Chrome. By learning from their existing compiling infrastructure and optimization processes, we hope to extract the key essence out of the works done by the V8 open source community, and to apply the optimization techniques covered in our class. Ultimately, we want to study what it takes to build a super fast JavaScript engine in the industry, and to see the how much improvements are gained from these optimizations.
+
+After collecting measurements on a selective benchmarks under various optimization conditions, we found that the optimizing compiler in V8 has relatively low impact compared to inline caching. With the addition of inline caching, the performance can be improved to 4.7 times as fast as the one without inline caching, while the improvement brought by the optimization is almost margin and sometimes even negative. These observations reinforce the important of reusing shared code structure and hot code identification to avoid unnecessary optimization overhead. 
 
 \end{abstract}
 
@@ -41,6 +43,8 @@ In this course project, we want to focus on the trace profiling and optimization
 \section{Introduction}
 
 Although JavaScript is traditionally translated into bytecode by an interpreter, more and more JavaScript Engines in modern browsers  are designed to compile directly into machine code. Our project will mainly focus on trace profiling\cite{Trace} in V8, and making constructive adjustments according to the optimization techniques we have learned in class. We will use the SunSpider JavaScript benchmark and the V8 benchmark to measure and compare the existing infrastructures, and make a sound analysis of the results. Our overall goal is to understand the common optimization procedures performed by modern JavaScript Engines, as well as the possible performance enhancements with the knowledge we've acquired from EE382V. 
+
+
 
 In this paper, we will cover our motivations for doing this project, background information and detailed compilation processes about the V8 engine, profiling results, and comparisons to show the effectiveness of the optimizations done in V8.
 
@@ -211,13 +215,17 @@ The example here was to calculate the $25000$th prime number\cite{googleIO}. The
 The C++ code implementing the algorithm was in the Fig.\ref{figure:prime_cplusplus} while the JavaScript version was in the Fig.\ref{figure:prime_JavaScript}.
 Running these two different versions of code on the same machine showed that the runtime of C++ code was 9.6x faster than the JavaScript code. To find the reason of poor performance of the JavaScript code, we performed a profiling on the JavaScript code to determine the runtime of each function.
 First, We executed the command in \eqref{eq:1} to get the log file with profiling information. 
-\begin{align}
-  \scriptsize & \texttt{./ia32.release/d8 samples/primes.js --prof}\label{eq:1}
+
+\begin{align}\label{eq:1}
+   \texttt{./ia32.release/d8 samples/primes.js --prof}
 \end{align}
+
 Second, \eqref{eq:2} was applied to get the extract the runtime information of each function from the log file. 
-\begin{align}
-  \scriptsize & \texttt{./tools/mac-tick-processor v8.log}\label{eq:2}
+
+\begin{align}\label{eq:2}
+   \texttt{./tools/mac-tick-processor v8.log}
 \end{align}
+
 The output of \eqref{eq:2} provides us the runtime of each function in the JavaScript code.
 
 
@@ -276,7 +284,7 @@ $25000$th Prime&1.3          &12.5        &11.5\%&1.9         &99.4\%\\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The Fig.\ref{figure:prime_profiling} illustrated the profiling of the original JavaScript code, and Fig.\ref{figure:prime_profiling_2} provided the second profiling after fixing the out-of-bounds.
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.54\textwidth]{figs/prime_profiling}
     \caption{Profiling on Original JavaScript Code}
@@ -285,16 +293,14 @@ The Fig.\ref{figure:prime_profiling} illustrated the profiling of the original J
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.54\textwidth]{figs/prime_profiling_2}
-    \vspace{-0.8in}
     \caption{Profiling After Optimization}
     \label{figure:prime_profiling_2}
 \end{figure}
 
-Compared the performance of V8 engine under different optimization conditions in Table~\ref{table:result2}, we observed two interesting results. First, we noticed that the optimizing compiler doesn't always improve the compilation performance; in fact, sometimes its heavy overhead even deteriorates the performance. This might be caused by our selection of benchmarks, since the optimization option in V8 only shines when there are heavily executed code in a program. 
+Comparing the performance of V8 engine under different optimization conditions in Table~\ref{table:result2}, we observed two interesting results. First, we noticed that the optimizing compiler doesn't always improve the compilation performance; in fact, sometimes its heavy overhead even deteriorates the performance. This might be caused by our selection of benchmarks, since the optimization option in V8 only shines when there are heavily executed code in a program. 
 
-The second observation from this measurement was the difference in improvements between \texttt{Prime} and \texttt{Prime-2}, where the latter is an improved version of the former. \texttt{Prime}
+The second observation from this measurement was the difference in improvements between \texttt{Prime} and \texttt{Prime-2}, where the latter is an improved version of the former. \texttt{Prime} keeps a list of all the past prime numbers, but it accesses one index over the list limit. Hence, it has a growing array data structure and requires a new type of hidden class for each iteration, which causes inline cache misses. On the other hand, \texttt{Prime-2} only accesses the last element of the list, which preserves a static array structure. Since the same hidden class for this array is being used over and over again, the power of inline caching shows a significant improvement in speed.
 
-\vspace{-0.2in}
 \begin{table}[H]
 \begin{tabular}{|r|r|r|r|r|}
 \hline
@@ -319,8 +325,11 @@ Entire V8 Benchmark Suite&21.6      &21.6        &81.3       &79.8            \\
 \end{figure}
 
 
+\-\\
 \section{Conclusion}
 conclusion
+
+\-\\
 \section{Acknoledgment}
 We are very grateful to Dr. Vijay Reddi for the discussions and advices to the scope and direction of this paper.
 %\begin{figure}[hbt!]	
@@ -391,6 +400,7 @@ We are very grateful to Dr. Vijay Reddi for the discussions and advices to the s
 %\section*{Acknowledgment}
 
 
+\-\\
 \begin{thebibliography}{1}
 
 \bibitem{jshistory}
