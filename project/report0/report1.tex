@@ -227,6 +227,24 @@ Though with this incorrect access, JavaScript could still give the correct $2500
 By correcting the access range in the isPrimeDivisible function, the new run time was only about 1.5 times of the C++ code. This improvement illustrated that JavaScript was slower tan C++, but was not much slower. 
 The profiling with the out-of-bounds provided that more than 99\% was spent on the main function.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The Fig.\ref{figure:prime_profiling} illustrated the profiling of the original JavaScript code, and Fig.\ref{figure:prime_profiling_2} provided the second profiling after fixing the out-of-bounds.
+\begin{figure}[h]
+% \vspace {-0.1in}
+    \centering
+    \includegraphics[width=0.54\textwidth]{figs/prime_profiling}
+    \caption{Profiling on Original JavaScript Code}
+    \label{figure:prime_profiling}
+ \end{figure}
+ %
+\begin{figure}[H]
+% \vspace {-0.1in}
+    \centering
+    \includegraphics[width=0.50\textwidth]{figs/prime_profiling_2}
+    \caption{Profiling After Optimization}
+    \label{figure:prime_profiling_2}
+  %   \vspace {-0.1in}
+\end{figure}
 \section{Results}
 The experiments are conducted on an Intel Core i7 2.3GHz Mac OS X  with 8GB memory.
 In Table~\ref{table:result1}, we compare the runtime of the C++ code with the JavaScript version in Fig.\ref{figure:prime}. 
@@ -243,8 +261,10 @@ Initially the JavaScript was 9.6x slower than the C++ version. But after optimiz
 Benchmarks & \multicolumn{1}{|c}{C++} & \multicolumn{2}{|c}{JavaScript} & \multicolumn{2}{|c|}{Improved JavaScript}\\
 \cline{2-6}
            & runtime (s) & runtime (s)& main & runtime (s)& main\\
+           \hline
 $25000$th Prime&1.3          &12.5        &11.5\%&1.9         &99.4\%\\
-           &             &9.6x        &11.5\%&1.5x        &\\
+\hline
+           &             &9.6x        &       &1.5x        &\\
 
 \hline
 \end{tabular}
@@ -253,6 +273,7 @@ $25000$th Prime&1.3          &12.5        &11.5\%&1.9         &99.4\%\\
 \caption{Comparisons between C++, JavaScript and Improved JavaScript}
 \label{table:result1}
 \end{table}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The Fig.\ref{figure:prime_profiling} illustrated the profiling of the original JavaScript code, and Fig.\ref{figure:prime_profiling_2} provided the second profiling after fixing the out-of-bounds.
 \begin{figure}[h]
