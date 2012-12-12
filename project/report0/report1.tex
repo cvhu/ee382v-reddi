@@ -234,24 +234,6 @@ Though with this incorrect access, JavaScript could still give the correct $2500
 By correcting the access range in the isPrimeDivisible function, the new run time was only about 1.5 times of the C++ code. This improvement illustrated that JavaScript was slower tan C++, but was not much slower. 
 The profiling with the out-of-bounds provided that more than 99\% was spent on the main function.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-The Fig.\ref{figure:prime_profiling} illustrated the profiling of the original JavaScript code, and Fig.\ref{figure:prime_profiling_2} provided the second profiling after fixing the out-of-bounds.
-\begin{figure}[h]
-% \vspace {-0.1in}
-    \centering
-    \includegraphics[width=0.54\textwidth]{figs/prime_profiling}
-    \caption{Profiling on Original JavaScript Code}
-    \label{figure:prime_profiling}
- \end{figure}
- %
-\begin{figure}[H]
-% \vspace {-0.1in}
-    \centering
-    \includegraphics[width=0.50\textwidth]{figs/prime_profiling_2}
-    \caption{Profiling After Optimization}
-    \label{figure:prime_profiling_2}
-  %   \vspace {-0.1in}
-\end{figure}
 \section{Results}
 The experiments are conducted on an Intel Core i7 2.3GHz Mac OS X  with 8GB memory.
 In Table~\ref{table:result1}, we compare the runtime of the C++ code with the JavaScript version. The Prime here was referred to the calculation of the $25000$th prime number with original JavaScript code. The Prime-2 was to calculate the $25000$th prime number with optimized JavaScript code. 
@@ -306,7 +288,9 @@ The second observation from this measurement was the difference in improvements 
 Benchmarks (in seconds) & Original  & NoOpt & NoIC & NoOpt\&NoIC\\
 \hline
 $25000$th Prime&22.5      &22.0        &95.4       &103.7            \\
+\hline
 $25000$th Prime-2&1.8      &1.8        &85.2       &93.1            \\
+\hline
 Entire V8 Benchmark Suite&21.6      &21.6        &81.3       &79.8            \\
 \hline
 
