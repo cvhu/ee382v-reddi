@@ -33,10 +33,9 @@
 
 \begin{abstract}
 
-In this course project, we want to focus on the trace profiling and optimizations in the V8 JavaScript Engine used in Google Chrome. By learning from their existing compiling infrastructure and optimization processes, we extract the key essence out of the works done by the V8 open source community, and twitch V8 with effective optimization methods. Ultimately, we want to study what it takes to build a super fast JavaScript engine in the industry, and to see if we can come up with some feasible ideas to make some enhancements.
+In this course project, we want to focus on the trace profiling and optimizations in the V8 JavaScript Engine used in Google Chrome. By learning from their existing compiling infrastructure and optimization processes, we extract the key essence out of the works done by the V8 open source community, and twitch V8 with effective optimization methods. Ultimately, we want to study what it takes to build a super fast JavaScript engine in the industry.
 
-After collecting measurements on a selective benchmarks under various optimization conditions, we found that the optimizing compiler in V8 has relatively low impact compared to inline caching. With the addition of inline caching, the performance can be improved to 4.7 times as fast as the one without inline caching, while the improvement brought by the optimization is almost margin and sometimes even negative. These observations reinforce the important of reusing shared code structure and hot code identification to avoid unnecessary optimization overhead. 
-
+Our results show that by performing profiling and choosing the effective optimization techniques, the runtime of JavaScript code improves more than 10 times.
 \end{abstract}
 
 \-\\
@@ -327,7 +326,7 @@ In Fig.\ref{figure:v8_benchmark},  runtime of the whole V8 benchmark suite was s
 
 \-\\
 \section{Conclusion}
-conclusion
+We study V8 JavaScript engine and try to squeeze the best performance from it. After collecting measurements on a selective benchmarks under various optimization conditions, we found that the optimizing compiler in V8 has relatively low impact compared to inline caching. With the addition of inline caching, the performance can be improved to 4.7 times as fast as the one without inline caching, while the improvement brought by the optimization is almost margin and sometimes even negative. These observations reinforce the important of reusing shared code structure and hot code identification to avoid unnecessary optimization overhead. 
 
 \-\\
 \section{Acknoledgment}
