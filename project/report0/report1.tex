@@ -1,5 +1,7 @@
 \documentclass[conference]{IEEEtran}
 \usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
 \usepackage{cite}
 \usepackage{url}
 \usepackage[cmex10]{amsmath}
@@ -38,6 +40,7 @@ In this course project, we want to focus on the trace profiling and optimization
 
 Although JavaScript is traditionally translated into byte code by an interpreter, more and more JavaScript Engines in modern browsers  are designed to compile directly into machine code. Our project will mainly focus on trace profiling\cite{Trace} in V8, and making constructive adjustments according to the optimization techniques we have learned in class. We will use the SunSpider JavaScript benchmark and the V8 benchmark to measure and compare the existing infrastructures, and make a sound analysis of the results. Our overall goal is to understand the common optimization procedures performed by modern JavaScript Engines, as well as the possible performance enhancements with the knowledge we've acquired from EE382V. 
 
+In this paper, we will cover our motivations for doing this project, background information and detailed compilation processes about the V8 engine, profiling results, and comparisons to show the effectiveness of the optimizations done in V8.
 %
 %As we know internet riches people's life with new and quick information. At the same time people spend more and more timing browsing various websites. How to make the webpages response faster and save people's time becomes important. Infrastructure of cables and servers definitely play an important role, but compilation optimization\cite{Trace} and arrange the HTML tree\cite{Popularity} make difference when the infrastructure is unchangable.
 %
@@ -47,18 +50,18 @@ Although JavaScript is traditionally translated into byte code by an interpreter
 \section{Motivation}
 JavaScript has been widely used in web-based applications to increase richer interactions and visualizations \cite{mcduffie} since it was first supported by Netscape 2 beta back in 1995 \cite{jshistory}. In over fiften years, it has evolved into a variety of frameworks and libraries to enable a more interactive and dynamic web browsing experience \cite{ajax}, or even to build high-performance network programs \cite{node}. Besides its applications in web-based softwares, JavaScript has also gained its popularity from applications such as Adobe Flash, Dashboard widgets in Mac OSX, browser extensions, and web bookmarklets. Apart from its essential role in client-side interactions, JavaScript also became one of the mainstream server-side solutions in recent years\cite{node}. 
 
-As the popularity of web-based applications and services increases, browser performance has become one of the major competitions in the industry. Since JavaScript is what makes modern web pages dynamic and interactive, how to optimize its compilation/interpretation is the key component to building fast and robust modern browsers. In the following figures, we compared modern web browsers on two JavaScript benchmarks, including Chrome Canary, Chrome, Firefox, Safari, and Opera.
+As the popularity of web-based applications and services increases, browser performance has become one of the major competitions in the industry. Since JavaScript is what makes modern web pages dynamic and interactive, how to optimize its compilation/interpretation is the key component to building fast and robust modern browsers. In the following two figures, we compared modern web browsers on two JavaScript benchmarks, including Chrome Canary, Chrome, Firefox, Safari, and Opera. In Fig.\ref{figure:v8_benchmark}, it was clear that both Chrome Canary (the latest beta release) and Chrome significantly outperformed any other competitors among all the test cases in the V8 benchmark suites. In Fig.\ref{figure:spider_benchmark}, although it became less obvious that Chrome was superior than its peers in the SunSpider benchmark, we can still see the dominance of V8 generally.
 
-\begin{figure}[hbt!]
-	\label{figure:prime}
-	 \includegraphics[width=0.5\textwidth]{figs/v8_benchmark.png}
-    \caption{(a) is the C++ code of calculating the 25000th prime number (b) is the JavaScript code for 25000th prime number.}
+\begin{figure}[hbt!]	
+	\includegraphics[width=0.5\textwidth]{figs/v8_benchmark.png}
+	 \caption{ Testing results on the V8 Benchmark suite v7}
+	 \label{figure:v8_benchmark}
 \end{figure}
 
-\begin{figure}[hbt!]
-	\label{figure:prime}
-	 \includegraphics[width=0.5\textwidth]{figs/sunspider_benchmark.png}
-    \caption{(a) is the C++ code of calculating the 25000th prime number (b) is the JavaScript code for 25000th prime number.}
+\begin{figure}[hbt!]	
+	\includegraphics[width=0.5\textwidth]{figs/sunspider_benchmark.png}
+	\caption{Testing results on the SunSpider Benchmark v0.9.1}
+	\label{figure:spider_benchmark}
 \end{figure}
 
 
@@ -119,22 +122,25 @@ The corresponding C++ code is in the Fig.\ref{figure:prime_cplusplus} while the 
 \section{Conclusion}
 
 \section{Acknoledgment}
-%figure-----------------------------
-%bottom because this figure will generate a big white space between caption and text
-%\begin{figure}[hbt!]
-%		\label{figure:prime}
-%         \centering\subfigure[]{%in [] it for caption
-%            \label{figure:prime_cplusplus}
-%            \includegraphics[width=0.2\textwidth]{figs/prime_cplusplus}
-%        }
-%        \centering\subfigure[]{
-%           \label{figure:prime_JavaScript}
-%           \includegraphics[width=0.2\textwidth]{figs/prime_JavaScript}
-%        }\\ %  ------- End of the first row ----------------------%
-%    \caption{(a) is the C++ code of calculating the 25000th prime number (b) is the JavaScript code for 25000th prime number.}
-%\end{figure}
-%end--figure-----------------------------
-=======
+
+\begin{figure}%[hbt!]	
+         \centering
+         \begin{subfigure}[b]{0.5\textwidth}%in [] it for caption
+            \includegraphics[width=\textwidth, angle=90]{figs/prime_cplusplus}
+            \caption{ C++ }
+            \label{figure:prime_cplusplus}            
+        \end{subfigure}
+        
+        \begin{subfigure}[b]{0.5\textwidth}
+            \includegraphics[width=\textwidth, angle=90]{figs/prime_JavaScript}
+            \caption{JavaScript}
+            \label{figure:prime_JavaScript}
+        \end{subfigure}
+    	\caption{the code of calculating the 25000th prime number}
+    	\label{figure:prime}
+\end{figure}
+
+
 %
 %
 %
