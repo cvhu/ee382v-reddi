@@ -8,10 +8,13 @@
 \usepackage{mdwmath}
 \usepackage{mdwtab}
 \usepackage{eqparbox}
-\usepackage{graphicx,subfigure}
+\usepackage{graphicx}
 \usepackage {epsfig}
 \usepackage{fixltx2e}
 \usepackage{float}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
 
 \begin{document}
 
@@ -110,6 +113,14 @@ V8 has a JavaScript regular expression engine, which was built from scratch to b
 \newpage
 \newpage
 
+
+
+
+
+
+
+
+
 \section{Approach}
 
 JavaScript is slow mainly due to JavaScript programs are untyped, and then compiled and run on the fly. Dynamic compilation is a great complement to static one. But completely replacing the optimized-to-death static compilation with JIT will lose the performance. 
@@ -155,23 +166,43 @@ JavaScript is slow mainly due to JavaScript programs are untyped, and then compi
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 JavaScript is slower compared with other programming languages, such as C++. Before applying the optimization to the compilation of JavaScript code, we used one example to demonstrate how slow JavaScript was compared with C++. 
-\begin{figure}[hbt!]
-    \centering
-        \subfigure[]{
-            \label{figure:prime_cplusplus}
-            \includegraphics[width=0.64\textwidth]{figs/prime_cplusplus}
-        }
-        \subfigure[]{
-           \label{figure:prime_JavaScript}
-           \includegraphics[width=0.64\textwidth]{figs/prime_JavaScript}
-        }
-    \caption{(a) was the C++ code of calculating the 25000th prime number (b) was the JavaScript code for 25000th prime number.}
-	\label{figure:prime}
- \end{figure}
+
+\begin{figure}[H]	
+         \centering
+         \begin{subfigure}[H]{0.55\textwidth}%in [] it for caption
+            \includegraphics[width=\textwidth]{figs/prime_cplusplus}
+            \caption{ C++ }
+            \label{figure:prime_cplusplus}            
+        \end{subfigure}
+        
+        \begin{subfigure}[H]{0.55\textwidth}
+            \includegraphics[width=\textwidth]{figs/prime_JavaScript}
+            \caption{JavaScript}
+            \label{figure:prime_JavaScript}
+        \end{subfigure}
+    	\caption{the code of calculating the 25000th prime number}
+    	\label{figure:prime}
+\end{figure}
+
+%\begin{figure}[hbt!]
+%    \centering
+%        \subfigure[]{
+%            \label{figure:prime_cplusplus}
+%            \includegraphics[width=0.64\textwidth]{figs/prime_cplusplus}
+%        }
+%        \subfigure[]{
+%           \label{figure:prime_JavaScript}
+%           \includegraphics[width=0.64\textwidth]{figs/prime_JavaScript}
+%        }
+%    \caption{(a) was the C++ code of calculating the 25000th prime number (b) was the JavaScript code for 25000th prime number.}
+%	\label{figure:prime}
+% \end{figure}
+ 
 The example here was to calculate the 25000th prime number\cite{googleIO}. The overall algorithm of calculating the 25000th prime number was illustrated in Algorithm\ref{algorithm:prime}.
 The C++ code implementing the algorithm was in the Fig.\ref{figure:prime_cplusplus} while the JavaScript version was in the Fig.\ref{figure:prime_JavaScript}.
 Running these two different versions of code on the same machine showed that the runtime of C++ code was 5x faster than the JavaScript code. To find the reason of poor performance of the JavaScript code, we performed a profiling on the JavaScript code to determine the runtime of each function.
 First, We executed the command in \eqref{eq:1} to get the log file with profiling information. 
+
 \begin{align}
   \scriptsize & ./out/ia32.release/d8 samples/primes.js --prof\label{eq:1}
 \end{align}
@@ -180,12 +211,13 @@ Second, \eqref{eq:2} was applied to get the extract the runtime information of e
 ./tools/mac-tick-processor v8.log\label{eq:2}
 \end{align}
 The output of \eqref{eq:2} provides us the runtime of each function in the JavaScript code, as in Fig.\ref{figure:prime_profiling}.
-\begin{figure}[hbt!]
-    \centering
-    \includegraphics[width=0.64\textwidth]{figs/prime_profiling}
-    \caption{ }
-    \label{figure:prime_profiling}
- \end{figure}
+
+%\begin{figure}[hbt!]
+%    \centering
+%    \includegraphics[width=0.64\textwidth]{figs/prime_profiling}
+%    \caption{ }
+%    \label{figure:prime_profiling}
+% \end{figure}
 Beyond our expectation, the most runtime spent was not on the main function which only consumes less than 12\% of the total runtime.
 
 \section{Results}
