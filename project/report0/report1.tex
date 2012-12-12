@@ -38,9 +38,7 @@ In this course project, we want to focus on the trace profiling and optimization
 
 \section{Introduction}
 
-
-
-Although JavaScript is traditionally translated into byte code by an interpreter, more and more JavaScript Engines in modern browsers  are designed to compile directly into machine code. Our project will mainly focus on trace profiling\cite{Trace} in V8, and making constructive adjustments according to the optimization techniques we have learned in class. We will use the SunSpider JavaScript benchmark and the V8 benchmark to measure and compare the existing infrastructures, and make a sound analysis of the results. Our overall goal is to understand the common optimization procedures performed by modern JavaScript Engines, as well as the possible performance enhancements with the knowledge we've acquired from EE382V. 
+Although JavaScript is traditionally translated into bytecode by an interpreter, more and more JavaScript Engines in modern browsers  are designed to compile directly into machine code. Our project will mainly focus on trace profiling\cite{Trace} in V8, and making constructive adjustments according to the optimization techniques we have learned in class. We will use the SunSpider JavaScript benchmark and the V8 benchmark to measure and compare the existing infrastructures, and make a sound analysis of the results. Our overall goal is to understand the common optimization procedures performed by modern JavaScript Engines, as well as the possible performance enhancements with the knowledge we've acquired from EE382V. 
 
 In this paper, we will cover our motivations for doing this project, background information and detailed compilation processes about the V8 engine, profiling results, and comparisons to show the effectiveness of the optimizations done in V8.
 
@@ -75,14 +73,14 @@ Although it has been pointed out that  the testing results from these popular Ja
 \section{Background}
 In this section, we will talk about the high-level design and implementation of the most recent V8 JavaScript Engine (v3.15.10), with specific examples to explain the key concepts and principals that make V8 outstanding.
 
-V8 is an open source project started in late 2006 by Google, which ships with their flagship Chrome web browser. Written in C++, V8 can run both as standalone and embedded applications. Its name came from the common automobile engine, and resembled the characteristics of being fast and efficient at the same time.
+V8 is an open source project started in late 2006 by Google, which ships with their flagship Chrome web browser. Written in C++, V8 can run both as standalone and embedded applications. Its name came from the common automobile engine, and resembled the characteristics of being fast and efficient at the same time\cite{hc}.
 
 \subsection{Key design concepts of V8}
 
 \subsubsection{Fast property access}
 As a dynamic programming language, object properties in JavaScript are dynamically modified in runtime, meaning that we can't just have a static memory location offset to access instance variables in programming languages like Java. In most JavaScript engines, property accesses are commonly implemented using a dynamic dictionary lookup to find the memory address, which is typically much slower and less efficient. 
 
-The concept of hidden classes is to dynamically create and change the hidden class of an object whenever a new property is added. Let's look at a straightforward location function to see how it works:
+The concept of hidden classes is to dynamically create and change the hidden class of an object whenever a new property is added. Let's look at a straightforward location class to see how it works:\\
 
 \begin{verbatim}
 function Location(lng, lat){
@@ -90,12 +88,23 @@ function Location(lng, lat){
     this.lat = lat;
 }
 \end{verbatim}
+\-\\
 
+\begin{itemize}
+\item Initialize a hidden class $C_0$ for Location objects with no properties to point to\\
+\item When \texttt{lng} property is added, move the class pointer to a newly created hidden class $C_1$, which contains the offset of the \texttt{lng} property storage location. Update $C_0$ to redirect objects with property \texttt{lng} to $C_1$\\
+\item When \texttt{lat} property is added, move the class pointer to a newly created hidden class $C_2$, which contains the offset of the \texttt{lat} property storage location. Update $C_1$ to redirect objects with property \texttt{lat} to $C_2$\\
+\end{itemize}
 
+Using this approach, most JavaScript programs share a large portion of hidden class structures during the runtime. The advantages of using hidden classes include dictionary lookup avoidance, which speeds up the time required for property accesses, and the opportunity of leveraging optimization with inline caching, which is a classic optimization technique to effectively eliminate the overhead in dynamic typing \cite{ic}.\\
 
 \subsubsection{Dynamic machine code}
+Unlike conventional interpreter for the most dynamic programming languages, V8 compiles JavaScript directly into machine code upon execution, without any intermediate byte codes. When property accessing code is initially executed, V8 fetches the current hidden class of the corresponding object and inserts the inline caching patches along with other machine instructions. 
 
-V8 has a JavaScript regular expression engine, which was built from scratch to be automata-based and to produce machine code for regular expressions. 
+Since V8 automatically predicts same hidden class used by all objects accessed in the same location, there might be incorrectly-patched inline caches with mismatched hidden classes, in which case V8 will handle the cache misses and redirect the object pointer to the correct hidden class. V8 also has a JavaScript regular expression engine, which was built from scratch to be automata-based and to produce machine code for regular expressions. 
+
+Both the hidden classes techniques and the machine code generation provide benefits to speed and efficiency when many objects in the code share the same types and frequencies of property accesses, which can effectively improve the JavaScript runtime performance in most programs.\\
+
 
 \subsubsection{Efficient garbage collection}
 
@@ -110,16 +119,12 @@ V8 has a JavaScript regular expression engine, which was built from scratch to b
 
 \subsubsection{Deoptimization support}
 
+
+
+
+
+
 \newpage
-\newpage
-
-
-
-
-
-
-
-
 
 \section{Approach}
 
@@ -167,15 +172,15 @@ JavaScript is slow mainly due to JavaScript programs are untyped, and then compi
 
 JavaScript is slower compared with other programming languages, such as C++. Before applying the optimization to the compilation of JavaScript code, we used one example to demonstrate how slow JavaScript was compared with C++. 
 
-\begin{figure}[H]	
+\begin{figure}[h]	
          \centering
-         \begin{subfigure}[H]{0.55\textwidth}%in [] it for caption
+         \begin{subfigure}[]{0.65\textwidth}%in [] it for caption
             \includegraphics[width=\textwidth]{figs/prime_cplusplus}
             \caption{ C++ }
             \label{figure:prime_cplusplus}            
         \end{subfigure}
         
-        \begin{subfigure}[H]{0.55\textwidth}
+        \begin{subfigure}[]{0.65\textwidth}
             \includegraphics[width=\textwidth]{figs/prime_JavaScript}
             \caption{JavaScript}
             \label{figure:prime_JavaScript}
@@ -183,20 +188,6 @@ JavaScript is slower compared with other programming languages, such as C++. Bef
     	\caption{the code of calculating the 25000th prime number}
     	\label{figure:prime}
 \end{figure}
-
-%\begin{figure}[hbt!]
-%    \centering
-%        \subfigure[]{
-%            \label{figure:prime_cplusplus}
-%            \includegraphics[width=0.64\textwidth]{figs/prime_cplusplus}
-%        }
-%        \subfigure[]{
-%           \label{figure:prime_JavaScript}
-%           \includegraphics[width=0.64\textwidth]{figs/prime_JavaScript}
-%        }
-%    \caption{(a) was the C++ code of calculating the 25000th prime number (b) was the JavaScript code for 25000th prime number.}
-%	\label{figure:prime}
-% \end{figure}
  
 The example here was to calculate the 25000th prime number\cite{googleIO}. The overall algorithm of calculating the 25000th prime number was illustrated in Algorithm\ref{algorithm:prime}.
 The C++ code implementing the algorithm was in the Fig.\ref{figure:prime_cplusplus} while the JavaScript version was in the Fig.\ref{figure:prime_JavaScript}.
@@ -211,22 +202,21 @@ Second, \eqref{eq:2} was applied to get the extract the runtime information of e
 ./tools/mac-tick-processor v8.log\label{eq:2}
 \end{align}
 The output of \eqref{eq:2} provides us the runtime of each function in the JavaScript code, as in Fig.\ref{figure:prime_profiling}.
-\begin{figure}[hbt!]
+
+\begin{figure}[h]
     \centering
     \includegraphics[width=0.64\textwidth]{figs/prime_profiling}
     \caption{ }
     \label{figure:prime_profiling}
  \end{figure}
-Beyond our expectation, the most runtime spent was not on the main function which only consumes less than 12\% of the total runtime. About 30\% of the total runtime was spent on the function env\_access\_off. With this hint, we observed that the access of the identified prime numbers was out of the range. Though with this incorrect range, JavaScript could still give the correct anwser 287107, the runtime increased.
-The $<=$ operator in isPrimeDivisible function should be replaced by $<$ operator to avoid accessing the last element which was not in the existing prime list.
-
+Beyond our expectation, the most runtime spent was not on the main function which only consumes less than 12\% of the total runtime.
 
 \section{Results}
 
 \section{Conclusion}
 
 \section{Acknoledgment}
-
+We are very grateful to Dr. Vijay Reddi for the discussions and advices to the scope and direction of this paper.
 
 %\begin{figure}[hbt!]	
 %         \centering
@@ -313,6 +303,9 @@ Ratanaworabhan, Paruj, Benjamin Livshits, and Benjamin G. Zorn. "JSMeter: Compar
 \bibitem{hc}
 Gray, James. "Google Chrome: the making of a cross-platform browser." Linux Journal 2009.185 (2009): 1.
 
+
+\bibitem{ic}
+Brunthaler, Stefan. "Efficient inline caching without dynamic translation." Proceedings of the 2010 ACM Symposium on Applied Computing. ACM, 2010.
 %\bibitem{IEEEhowto:kopka}
 %H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
 %  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
