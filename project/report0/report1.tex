@@ -119,19 +119,6 @@ Both the hidden classes techniques and the machine code generation provide benef
 
 \subsubsection{Deoptimization support}
 
-<<<<<<< HEAD
-
-
-
-
-
-\newpage
-=======
-\newpage
-\newpage
-
->>>>>>> 80d8ce64b0453762e5e2e0f83da7fc7ed9135452
-
 \section{Approach}
 JavaScript is slow mainly due to JavaScript programs are untyped, and then compiled and run on the fly. Dynamic compilation is a great complement to static one. But completely replacing the optimized-to-death static compilation with JIT will lose the performance. 
 %
@@ -179,21 +166,13 @@ JavaScript is slower compared with other programming languages, such as C++. Bef
 
 \begin{figure}[h]	
          \centering
-<<<<<<< HEAD
-         \begin{subfigure}[]{0.65\textwidth}%in [] it for caption
-=======
          \begin{subfigure}[H]{0.66\textwidth}%in [] it for caption
->>>>>>> 80d8ce64b0453762e5e2e0f83da7fc7ed9135452
             \includegraphics[width=\textwidth]{figs/prime_cplusplus}
             \caption{ C++ }
             \label{figure:prime_cplusplus}            
         \end{subfigure}
         
-<<<<<<< HEAD
-        \begin{subfigure}[]{0.65\textwidth}
-=======
         \begin{subfigure}[H]{0.66\textwidth}
->>>>>>> 80d8ce64b0453762e5e2e0f83da7fc7ed9135452
             \includegraphics[width=\textwidth]{figs/prime_JavaScript}
             \caption{JavaScript}
             \label{figure:prime_JavaScript}
@@ -201,8 +180,6 @@ JavaScript is slower compared with other programming languages, such as C++. Bef
     	\caption{the code of calculating the $25000$th prime number}
     	\label{figure:prime}
 \end{figure}
-<<<<<<< HEAD
-=======
 
 %\begin{figure}[hbt!]
 %    \centering
@@ -217,7 +194,7 @@ JavaScript is slower compared with other programming languages, such as C++. Bef
 %    \caption{(a) was the C++ code of calculating the $25000$th prime number (b) was the JavaScript code for $25000$th prime number.}
 %	\label{figure:prime}
 % \end{figure}
->>>>>>> 80d8ce64b0453762e5e2e0f83da7fc7ed9135452
+
  
 The example here was to calculate the $25000$th prime number\cite{googleIO}. The overall algorithm of calculating the $25000$th prime number was illustrated in Algorithm\ref{algorithm:prime}.
 The C++ code implementing the algorithm was in the Fig.\ref{figure:prime_cplusplus} while the JavaScript version was in the Fig.\ref{figure:prime_JavaScript}.
@@ -239,23 +216,19 @@ The output of \eqref{eq:2} provides us the runtime of each function in the JavaS
     \caption{ }
     \label{figure:prime_profiling}
  \end{figure}
-<<<<<<< HEAD
-Beyond our expectation, the most runtime spent was not on the main function which only consumes less than 12\% of the total runtime.
-=======
 
 Beyond our expectation, the most runtime was not spent on the main function. The main function only consumed less than 12\% of the total runtime while about 30\% of the total runtime was spent on the function env\_access\_off. With this hint, we noticed that the access of the last element, this.prime[this.prime\_count], was out of the range of identified prime numbers. 
 Though with this incorrect access, JavaScript could still give the correct $25000$th prime number - 287107, the runtime increased drametically.
 
 By correcting the access range in the isPrimeDivisible function, the new run time was only about 1.17 times of the C++ code. This improvement illustrated that JavaScript was slower tan C++, but was not much slower. 
 The profiling with the out-of-bounds fixed was in Fig.\ref{figure:prime_profiling_2}. From the new profiling, we could observe that more than 99\% was spent on the main function.
-\begin{figure}[hbt!]
-    \centering
-    \includegraphics[width=0.54\textwidth]{figs/prime_profiling_2}
-    \caption{ }
-    \label{figure:prime_profiling_2}
- \end{figure}
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=0.54\textwidth]{figs/prime_profiling_2}
+%    \caption{ }
+%    \label{figure:prime_profiling_2}
+%\end{figure}
 
->>>>>>> 80d8ce64b0453762e5e2e0f83da7fc7ed9135452
 
 \section{Results}
 
