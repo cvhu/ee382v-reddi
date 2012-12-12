@@ -50,7 +50,7 @@ In this paper, we will cover our motivations for doing this project, background 
 \section{Motivation}
 JavaScript has been widely used in web-based applications to increase richer interactions and visualizations \cite{mcduffie} since it was first supported by Netscape 2 beta back in 1995 \cite{jshistory}. In over fiften years, it has evolved into a variety of frameworks and libraries to enable a more interactive and dynamic web browsing experience \cite{ajax}, or even to build high-performance network programs \cite{node}. Besides its applications in web-based softwares, JavaScript has also gained its popularity from applications such as Adobe Flash, Dashboard widgets in Mac OSX, browser extensions, and web bookmarklets. Apart from its essential role in client-side interactions, JavaScript also became one of the mainstream server-side solutions in recent years\cite{node}. 
 
-As the popularity of web-based applications and services increases, browser performance has become one of the major competitions in the industry. Since JavaScript is what makes modern web pages dynamic and interactive, how to optimize its compilation/interpretation is the key component to building fast and robust modern browsers. In the following two figures, we compared modern web browsers on two JavaScript benchmarks, including Chrome Canary, Chrome, Firefox, Safari, and Opera. In Fig.\ref{figure:v8_benchmark}, it was clear that both Chrome Canary (the latest beta release) and Chrome significantly outperformed any other competitors among all the test cases in the V8 benchmark suites. In Fig.\ref{figure:spider_benchmark}, although it became less obvious that Chrome was superior than its peers in the SunSpider benchmark, we can still see the dominance of V8 generally.
+As the popularity of web-based applications and services increases, browser performance has become one of the major competitions in the industry. Since JavaScript is what makes modern web pages dynamic and interactive, how to optimize its compilation/interpretation is the key component to building fast and robust modern browsers. In the following two figures, we compared modern web browsers on two JavaScript benchmarks, including Chrome Canary, Chrome, Firefox, Safari, and Opera. In Fig.\ref{figure:v8_benchmark}, it was clear that both Chrome Canary (the latest beta release) and Chrome significantly outperformed any other competitors among all the test cases in the V8 benchmark suites. In Fig.\ref{figure:spider_benchmark}, although it became less obvious that Chrome was superior than its peers in the SunSpider benchmark, we can still see the dominance of V8 in general. V8 benchmark suite was provided by the same community who developed the V8 engine, which was mainly composed of , while SunSpider focused on utility performance such as text manipulation, encryption/decryption, data structure access, and common operations.
 
 \begin{figure}[hbt!]	
 	\includegraphics[width=0.5\textwidth]{figs/v8_benchmark.png}
@@ -123,7 +123,7 @@ The corresponding C++ code is in the Fig.\ref{figure:prime_cplusplus} while the 
 
 \section{Acknoledgment}
 
-\begin{figure}%[hbt!]	
+\begin{figure}[hbt!]	
          \centering
          \begin{subfigure}[b]{0.5\textwidth}%in [] it for caption
             \includegraphics[width=\textwidth, angle=90]{figs/prime_cplusplus}
