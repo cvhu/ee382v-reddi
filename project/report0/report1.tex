@@ -1,7 +1,4 @@
 \documentclass[conference]{IEEEtran}
-\usepackage{graphicx}
-\usepackage{caption}
-\usepackage{subcaption}
 \usepackage{cite}
 \usepackage{url}
 \usepackage[cmex10]{amsmath}
@@ -11,7 +8,8 @@
 \usepackage{mdwmath}
 \usepackage{mdwtab}
 \usepackage{eqparbox}
-\usepackage[font=footnotesize,caption=false]{subfig}
+\usepackage{graphicx,subfigure}
+\usepackage {epsfig}
 \usepackage{fixltx2e}
 \usepackage{float}
 
@@ -42,12 +40,12 @@ In this course project, we want to focus on the trace profiling and optimization
 Although JavaScript is traditionally translated into byte code by an interpreter, more and more JavaScript Engines in modern browsers  are designed to compile directly into machine code. Our project will mainly focus on trace profiling\cite{Trace} in V8, and making constructive adjustments according to the optimization techniques we have learned in class. We will use the SunSpider JavaScript benchmark and the V8 benchmark to measure and compare the existing infrastructures, and make a sound analysis of the results. Our overall goal is to understand the common optimization procedures performed by modern JavaScript Engines, as well as the possible performance enhancements with the knowledge we've acquired from EE382V. 
 
 In this paper, we will cover our motivations for doing this project, background information and detailed compilation processes about the V8 engine, profiling results, and comparisons to show the effectiveness of the optimizations done in V8.
-%
+
+
 %As we know internet riches people's life with new and quick information. At the same time people spend more and more timing browsing various websites. How to make the webpages response faster and save people's time becomes important. Infrastructure of cables and servers definitely play an important role, but compilation optimization\cite{Trace} and arrange the HTML tree\cite{Popularity} make difference when the infrastructure is unchangable.
 %
 %In this work, we will tackle both compilation optimization and arrangement of the HTML tree to accelerate the web response. We use TraceMonkey to help build the trace information and several optimization techniques are applied based on the trace structure. We analyze the web site popularity from the HTTP log file and then revise the HTTP tree based on the popularity.
 
-%
 \section{Motivation}
 JavaScript has been widely used in web-based applications to increase richer interactions and visualizations \cite{mcduffie} since it was first supported by Netscape 2 beta back in 1995 \cite{jshistory}. In over fiften years, it has evolved into a variety of frameworks and libraries to enable a more interactive and dynamic web browsing experience \cite{ajax}, or even to build high-performance network programs \cite{node}. Besides its applications in web-based softwares, JavaScript has also gained its popularity from applications such as Adobe Flash, Dashboard widgets in Mac OSX, browser extensions, and web bookmarklets. Apart from its essential role in client-side interactions, JavaScript also became one of the mainstream server-side solutions in recent years\cite{node}. 
 
@@ -134,11 +132,11 @@ JavaScript is slow mainly due to JavaScript programs are untyped, and then compi
 %\EndIf
 			\Require
 			 \Ensure {The 25000th Prime Number P}
-			 \State {Prime list PL = {}} 
+			 \State {Prime list PL = \{\}} 
 			 \For {P = 1 to infinity}
 			    \State {Flag = true}
 			    \For{index = 1 to PL.size()}
-			 	\If {P\%PL[i] == 0}
+			 	\If {P.mod(PL[i]) == 0}
 			            \State {Flag = false}
 			            \State {Continue}
 			        \EndIf
@@ -156,9 +154,39 @@ JavaScript is slow mainly due to JavaScript programs are untyped, and then compi
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-JavaScript is slower compared with other programming languages, such as C++. Before applying the optimization to the compilation of JavaScript code, we use one example to analyze how slow JavaScript is compared with the same code in C++. The example we use here is to calculate the 25000th prime number\cite{google_IO}. The overall algorithm of of calculating the 25000th prime number is illustrated in Algorithm\ref{algorithm:prime}.
-The corresponding C++ code is in the Fig.\ref{figure:prime_cplusplus} while the JavaScript version is in the Fig.\ref{figure:JavaScript}.
-
+JavaScript is slower compared with other programming languages, such as C++. Before applying the optimization to the compilation of JavaScript code, we used one example to demonstrate how slow JavaScript was compared with C++. 
+\begin{figure}[hbt!]
+    \centering
+        \subfigure[]{
+            \label{figure:prime_cplusplus}
+            \includegraphics[width=0.64\textwidth]{figs/prime_cplusplus}
+        }
+        \subfigure[]{
+           \label{figure:prime_JavaScript}
+           \includegraphics[width=0.64\textwidth]{figs/prime_JavaScript}
+        }
+    \caption{(a) was the C++ code of calculating the 25000th prime number (b) was the JavaScript code for 25000th prime number.}
+	\label{figure:prime}
+ \end{figure}
+The example here was to calculate the 25000th prime number\cite{googleIO}. The overall algorithm of calculating the 25000th prime number was illustrated in Algorithm\ref{algorithm:prime}.
+The C++ code implementing the algorithm was in the Fig.\ref{figure:prime_cplusplus} while the JavaScript version was in the Fig.\ref{figure:prime_JavaScript}.
+Running these two different versions of code on the same machine showed that the runtime of C++ code was 5x faster than the JavaScript code. To find the reason of poor performance of the JavaScript code, we performed a profiling on the JavaScript code to determine the runtime of each function.
+First, We executed the command in \eqref{eq:1} to get the log file with profiling information. 
+\begin{align}
+  \scriptsize & ./out/ia32.release/d8 samples/primes.js --prof\label{eq:1}
+\end{align}
+Second, \eqref{eq:2} was applied to get the extract the runtime information of each function from the log file. 
+\begin{align}
+./tools/mac-tick-processor v8.log\label{eq:2}
+\end{align}
+The output of \eqref{eq:2} provides us the runtime of each function in the JavaScript code, as in Fig.\ref{figure:prime_profiling}.
+\begin{figure}[hbt!]
+    \centering
+    \includegraphics[width=0.64\textwidth]{figs/prime_profiling}
+    \caption{ }
+    \label{figure:prime_profiling}
+ \end{figure}
+Beyond our expectation, the most runtime spent was not on the main function which only consumes less than 12\% of the total runtime.
 
 \section{Results}
 
@@ -166,22 +194,23 @@ The corresponding C++ code is in the Fig.\ref{figure:prime_cplusplus} while the 
 
 \section{Acknoledgment}
 
-\begin{figure}[hbt!]	
-         \centering
-         \begin{subfigure}[b]{0.55\textwidth}%in [] it for caption
-            \includegraphics[width=\textwidth, angle=90]{figs/prime_cplusplus}
-            \caption{ C++ }
-            \label{figure:prime_cplusplus}            
-        \end{subfigure}
-        
-        \begin{subfigure}[b]{0.55\textwidth}
-            \includegraphics[width=\textwidth, angle=90]{figs/prime_JavaScript}
-            \caption{JavaScript}
-            \label{figure:prime_JavaScript}
-        \end{subfigure}
-    	\caption{the code of calculating the 25000th prime number}
-    	\label{figure:prime}
-\end{figure}
+
+%\begin{figure}[hbt!]	
+%         \centering
+%         \begin{subfigure}[b]{0.55\textwidth}%in [] it for caption
+%            \includegraphics[width=\textwidth, angle=90]{figs/prime_cplusplus}
+%            \caption{ C++ }
+%            \label{figure:prime_cplusplus}            
+%        \end{subfigure}
+%        
+%        \begin{subfigure}[b]{0.55\textwidth}
+%            \includegraphics[width=\textwidth, angle=90]{figs/prime_JavaScript}
+%            \caption{JavaScript}
+%            \label{figure:prime_JavaScript}
+%        \end{subfigure}
+%    	\caption{the code of calculating the 25000th prime number}
+%    	\label{figure:prime}
+%\end{figure}
 
 
 %
@@ -260,6 +289,8 @@ Jungwoo Ha and Mohammad R. Haghighat and Shengnan Cong, A concurrent trace-based
 John Garofalakis and Panagiotis Kappos and Dimitris Mourloukos, Web site optimization using page popularity, Internet Computing, 1999
 \bibitem{node}
 "Why Everyone Is Talking About Node." Jolie O'Dell. Mashable, Inc., Web. 10 Mar. 2011.
+\bibitem{googleIO}
+"Breaking the JavaScript Speed Limit with V8", Google I/O, 2012
 
 \end{thebibliography}
 
@@ -268,5 +299,3 @@ John Garofalakis and Panagiotis Kappos and Dimitris Mourloukos, Web site optimiz
 
 % that's all folks
 \end{document}
-
-
