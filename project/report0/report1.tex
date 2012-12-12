@@ -111,23 +111,24 @@ JavaScript is slow mainly due to JavaScript programs are untyped, and then compi
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-JavaScript is slower compared with other programming languages, such as C++. Before applying the optimization to the compilation of JavaScript code, we use one example to analyze how slow JavaScript is compared with the same code in C++. The example we use here is to calculate the 25000th prime number\cite{google_IO}. The overall algorithm of of calculating the 25000th prime number is illustrated in Algorithm\ref{algorithm:prime}.
-The corresponding C++ code is in the Fig.\ref{figure:prime_cplusplus} while the JavaScript version is in the Fig.\ref{figure:JavaScript}.
+JavaScript is slower compared with other programming languages, such as C++. Before applying the optimization to the compilation of JavaScript code, we use one example to demonstrate how slow JavaScript is compared with C++. 
 
+The example we use here is to calculate the 25000th prime number\cite{googleIO}. The overall algorithm of calculating the 25000th prime number is illustrated in Algorithm\ref{algorithm:prime}.
+The C++ code implementing the algorithm is in the Fig.\ref{figure:prime_cplusplus} while the JavaScript version is in the Fig.\ref{figure:prime_JavaScript}.
 
 \section{Results}
 \begin{figure}[hbt!]
-	\label{figure:prime}
     \centering
         \subfigure[]{
             \label{figure:prime_cplusplus}
-            \includegraphics[width=0.44\textwidth]{figs/prime_cplusplus}
+            \includegraphics[width=0.64\textwidth]{figs/prime_cplusplus}
         }
         \subfigure[]{
            \label{figure:prime_JavaScript}
-           \includegraphics[width=0.44\textwidth]{figs/prime_JavaScript}
+           \includegraphics[width=0.64\textwidth]{figs/prime_JavaScript}
         }
     \caption{(a) is the C++ code of calculating the 25000th prime number (b) is the JavaScript code for 25000th prime number.}
+	\label{figure:prime}
  \end{figure}
 
 \section{Conclusion}
@@ -205,6 +206,8 @@ Jungwoo Ha and Mohammad R. Haghighat and Shengnan Cong, A concurrent trace-based
 John Garofalakis and Panagiotis Kappos and Dimitris Mourloukos, Web site optimization using page popularity, Internet Computing, 1999
 \bibitem{node}
 "Why Everyone Is Talking About Node." Jolie O'Dell. Mashable, Inc., Web. 10 Mar. 2011.
+\bibitem{googleIO}
+"Breaking the JavaScript Speed Limit with V8", Google I/O, 2012
 
 \end{thebibliography}
 
