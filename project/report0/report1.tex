@@ -125,27 +125,25 @@ JavaScript is slower compared with other programming languages, such as C++. Bef
     \caption{(a) was the C++ code of calculating the 25000th prime number (b) was the JavaScript code for 25000th prime number.}
 	\label{figure:prime}
  \end{figure}
-The example we use here was to calculate the 25000th prime number\cite{googleIO}. The overall algorithm of calculating the 25000th prime number was illustrated in Algorithm\ref{algorithm:prime}.
+The example here was to calculate the 25000th prime number\cite{googleIO}. The overall algorithm of calculating the 25000th prime number was illustrated in Algorithm\ref{algorithm:prime}.
 The C++ code implementing the algorithm was in the Fig.\ref{figure:prime_cplusplus} while the JavaScript version was in the Fig.\ref{figure:prime_JavaScript}.
-Running these two pieces of code on the same machine showed that the runtime of C++ code was 5x faster than the JavaScript code. To improve the performance of the JavaScript code, we performed a profiling on the JavaScript code to determine the runtime of each function.
+Running these two different versions of code on the same machine showed that the runtime of C++ code was 5x faster than the JavaScript code. To find the reason of poor performance of the JavaScript code, we performed a profiling on the JavaScript code to determine the runtime of each function.
 First, We executed the command in \eqref{eq:1} to get the log file with profiling information. 
 \begin{align}
   \scriptsize & ./out/ia32.release/d8 samples/primes.js --prof\label{eq:1}
 \end{align}
-Second, \eqref{eq:2} was applied to get the extract the profiling information of each function from the log file. 
+Second, \eqref{eq:2} was applied to get the extract the runtime information of each function from the log file. 
 \begin{align}
 ./tools/mac-tick-processor v8.log\label{eq:2}
 \end{align}
-The profiling information extracted in this example was in \ref{figure:prime_profiling}. 
+The output of \eqref{eq:2} provides us the runtime of each function in the JavaScript code, as in Fig.\ref{figure:prime_profiling}.
 \begin{figure}[hbt!]
     \centering
-        \subfigure[]{
-            \label{figure:prime_profiling}
-            \includegraphics[width=0.64\textwidth]{figs/prime_profiling}
-        }
+    \includegraphics[width=0.64\textwidth]{figs/prime_profiling}
     \caption{ }
+    \label{figure:prime_profiling}
  \end{figure}
-
+Beyond our expectation, the most runtime spent was not on the main function which only consumes less than 12\% of the total runtime.
 
 \section{Results}
 
