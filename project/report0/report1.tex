@@ -111,12 +111,7 @@ JavaScript is slow mainly due to JavaScript programs are untyped, and then compi
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-JavaScript is slower compared with other programming languages, such as C++. Before applying the optimization to the compilation of JavaScript code, we use one example to demonstrate how slow JavaScript is compared with C++. 
-
-The example we use here is to calculate the 25000th prime number\cite{googleIO}. The overall algorithm of calculating the 25000th prime number is illustrated in Algorithm\ref{algorithm:prime}.
-The C++ code implementing the algorithm is in the Fig.\ref{figure:prime_cplusplus} while the JavaScript version is in the Fig.\ref{figure:prime_JavaScript}.
-
-\section{Results}
+JavaScript is slower compared with other programming languages, such as C++. Before applying the optimization to the compilation of JavaScript code, we used one example to demonstrate how slow JavaScript was compared with C++. 
 \begin{figure}[hbt!]
     \centering
         \subfigure[]{
@@ -127,9 +122,32 @@ The C++ code implementing the algorithm is in the Fig.\ref{figure:prime_cplusplu
            \label{figure:prime_JavaScript}
            \includegraphics[width=0.64\textwidth]{figs/prime_JavaScript}
         }
-    \caption{(a) is the C++ code of calculating the 25000th prime number (b) is the JavaScript code for 25000th prime number.}
+    \caption{(a) was the C++ code of calculating the 25000th prime number (b) was the JavaScript code for 25000th prime number.}
 	\label{figure:prime}
  \end{figure}
+The example we use here was to calculate the 25000th prime number\cite{googleIO}. The overall algorithm of calculating the 25000th prime number was illustrated in Algorithm\ref{algorithm:prime}.
+The C++ code implementing the algorithm was in the Fig.\ref{figure:prime_cplusplus} while the JavaScript version was in the Fig.\ref{figure:prime_JavaScript}.
+Running these two pieces of code on the same machine showed that the runtime of C++ code was 5x faster than the JavaScript code. To improve the performance of the JavaScript code, we performed a profiling on the JavaScript code to determine the runtime of each function.
+First, We executed the command in \eqref{eq:1} to get the log file with profiling information. 
+\begin{align}
+  \scriptsize & ./out/ia32.release/d8 samples/primes.js --prof\label{eq:1}
+\end{align}
+Second, \eqref{eq:2} was applied to get the extract the profiling information of each function from the log file. 
+\begin{align}
+./tools/mac-tick-processor v8.log\label{eq:2}
+\end{align}
+The profiling information extracted in this example was in \ref{figure:prime_profiling}. 
+\begin{figure}[hbt!]
+    \centering
+        \subfigure[]{
+            \label{figure:prime_profiling}
+            \includegraphics[width=0.64\textwidth]{figs/prime_profiling}
+        }
+    \caption{ }
+ \end{figure}
+
+
+\section{Results}
 
 \section{Conclusion}
 
