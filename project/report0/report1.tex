@@ -240,7 +240,7 @@ In Table~\ref{table:result1}, we compare the runtime of the C++ code with the Ja
 Initially the JavaScript was 9.6x slower than the C++ version. But after code optimization, JavaScript becomed only 1.5x slower than C++. The percentage of runtime spent in the main function increased from $11.5\%$ to $99.4\%$ in column 4 and 6 of Table~\ref{table:result1}. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\vspace{-0.2in}
-\begin{table} [hbt!]
+\begin{table} [h]
 %\vspace{-0.1in}
 \centering
 \begin{threeparttable}
@@ -282,7 +282,7 @@ Comparing the performance of V8 engine under different optimization conditions i
 
 The second observation from this measurement was the difference in improvements between \texttt{Prime} and \texttt{Prime-2}, where the latter is an improved version of the former. \texttt{Prime} keeps a list of all the past prime numbers, but it accesses one index over the list limit. Hence, it has a growing array data structure and requires a new type of hidden class for each iteration, which causes inline cache misses. On the other hand, \texttt{Prime-2} only accesses the last element of the list, which preserves a static array structure. Since the same hidden class for this array is being used over and over again, the power of inline caching shows a significant improvement in speed.
 
-\begin{table}[H]
+\begin{table}[h]
 \begin{tabular}{|r|r|r|r|r|}
 \hline
 Benchmarks (in seconds) & Original  & NoOpt & NoIC & NoOpt\&NoIC\\
@@ -293,11 +293,11 @@ $25000$th Prime-2&1.8      &1.8        &85.2       &93.1            \\
 \hline
 Entire V8 Benchmark Suite&21.6      &21.6        &81.3       &79.8            \\
 \hline
-
 \end{tabular}
 \caption{Performance of V8 Engine on various optimization conditions}
 \label{table:result2}
 \end{table}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In Fig.\ref{figure:v8_benchmark},  runtime of the whole V8 benchmark suite was shown under different optimization setups. IC indicated that inline caching was enabled and Opt referred that optimizing compiler was applied. Comparing red and blue columns, we noticed that with or without Opt almost hit the same performance. The IC was important for V8 cause it enabled larger trunk of code optimized together. One interesting thing was that the green columns are almost always better than the orange ones. This scenario indicated that if no inline caching was enabled,  optimizing compiler became runtime overhead completely.
 \begin{figure}[H]
