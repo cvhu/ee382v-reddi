@@ -13,6 +13,7 @@
 \usepackage{eqparbox}
 \usepackage[font=footnotesize,caption=false]{subfig}
 \usepackage{fixltx2e}
+\usepackage{float}
 
 \begin{document}
 
@@ -50,24 +51,66 @@ In this paper, we will cover our motivations for doing this project, background 
 \section{Motivation}
 JavaScript has been widely used in web-based applications to increase richer interactions and visualizations \cite{mcduffie} since it was first supported by Netscape 2 beta back in 1995 \cite{jshistory}. In over fiften years, it has evolved into a variety of frameworks and libraries to enable a more interactive and dynamic web browsing experience \cite{ajax}, or even to build high-performance network programs \cite{node}. Besides its applications in web-based softwares, JavaScript has also gained its popularity from applications such as Adobe Flash, Dashboard widgets in Mac OSX, browser extensions, and web bookmarklets. Apart from its essential role in client-side interactions, JavaScript also became one of the mainstream server-side solutions in recent years\cite{node}. 
 
-As the popularity of web-based applications and services increases, browser performance has become one of the major competitions in the industry. Since JavaScript is what makes modern web pages dynamic and interactive, how to optimize its compilation/interpretation is the key component to building fast and robust modern browsers. In the following two figures, we compared modern web browsers on two JavaScript benchmarks, including Chrome Canary, Chrome, Firefox, Safari, and Opera. In Fig.\ref{figure:v8_benchmark}, it was clear that both Chrome Canary (the latest beta release) and Chrome significantly outperformed any other competitors among all the test cases in the V8 benchmark suites. In Fig.\ref{figure:spider_benchmark}, although it became less obvious that Chrome was superior than its peers in the SunSpider benchmark, we can still see the dominance of V8 in general. V8 benchmark suite was provided by the same community who developed the V8 engine, which was mainly composed of , while SunSpider focused on utility performance such as text manipulation, encryption/decryption, data structure access, and common operations.
+As the popularity of web-based applications and services increases, browser performance has become one of the major competitions in the industry. Since JavaScript is what makes modern web pages dynamic and interactive, how to optimize its compilation/interpretation is the key component to building fast and robust modern browsers. We compared modern web browsers on two JavaScript benchmarks, including Chrome Canary, Chrome, Firefox, Safari, and Opera. In Fig.\ref{figure:v8_benchmark}, it was clear that both Chrome Canary (the latest beta release) and Chrome significantly outperformed any other competitors among all the test cases in the V8 benchmark suites. In Fig.\ref{figure:spider_benchmark}, although it became less obvious that Chrome was superior than its peers in the SunSpider benchmark, we can still see the dominance of V8 in general. V8 benchmark suite was provided by the same community who developed the V8 engine, which was composed of some simulation benchmarks translated from other languages like BCPL, Smalltalk, and Scheme, as well as common operations and manipulation performance, while SunSpider mainly focused on utility performance such as text manipulation, encryption/decryption, data structure access, and common operations.
 
-\begin{figure}[hbt!]	
-	\includegraphics[width=0.5\textwidth]{figs/v8_benchmark.png}
-	 \caption{ Testing results on the V8 Benchmark suite v7}
-	 \label{figure:v8_benchmark}
+
+
+\begin{figure}[H]
+	\begin{subfigure}[H]{0.5\textwidth}
+		\includegraphics[width=\textwidth]{figs/v8_benchmark.png}
+		 \caption{V8 Benchmark suite v7}
+		 \label{figure:v8_benchmark}
+	 \end{subfigure}
+	\begin{subfigure}[H]{0.5\textwidth}
+		\includegraphics[width=\textwidth]{figs/sunspider_benchmark.png}
+		\caption{SunSpider Benchmark v0.9.1}
+		\label{figure:spider_benchmark}
+	\end{subfigure}
+	\caption{ Testing results on 2 common JavaScript Benchmarks}
 \end{figure}
 
-\begin{figure}[hbt!]	
-	\includegraphics[width=0.5\textwidth]{figs/sunspider_benchmark.png}
-	\caption{Testing results on the SunSpider Benchmark v0.9.1}
-	\label{figure:spider_benchmark}
-\end{figure}
+Although it has been pointed out that  the testing results from these popular JavaScript benchmarks don't necessarily indicate the true performance of real-world web applications \cite{jsmeter1}, the fact that Chrome dominated these competitions should somewhat reflect its success in designing a fast and efficient JavaScript engine. 
+
+\section{Background}
+In this section, we will talk about the high-level design and implementation of the most recent V8 JavaScript Engine (v3.15.10), with specific examples to explain the key concepts and principals that make V8 outstanding.
+
+V8 is an open source project started in late 2006 by Google, which ships with their flagship Chrome web browser. Written in C++, V8 can run both as standalone and embedded applications. Its name came from the common automobile engine, and resembled the characteristics of being fast and efficient at the same time.
+
+\subsection{Key design concepts of V8}
+
+\subsubsection{Fast property access}
+As a dynamic programming language, object properties in JavaScript are dynamically modified in runtime, meaning that we can't just have a static memory location offset to access instance variables in programming languages like Java. In most JavaScript engines, property accesses are commonly implemented using a dynamic dictionary lookup to find the memory address, which is typically much slower and less efficient. 
+
+The concept of hidden classes is to dynamically create and change the hidden class of an object whenever a new property is added. Let's look at a straightforward location function to see how it works:
+
+\begin{verbatim}
+function Location(lng, lat){
+    this.lng = lng;
+    this.lat = lat;
+}
+\end{verbatim}
 
 
-\section{Background of V8 Engine}
+
+\subsubsection{Dynamic machine code}
+
+V8 has a JavaScript regular expression engine, which was built from scratch to be automata-based and to produce machine code for regular expressions. 
+
+\subsubsection{Efficient garbage collection}
 
 
+\subsection{V8 compilation process}
+
+\subsubsection{Base compiler}
+
+\subsubsection{Runtime profiler}
+
+\subsubsection{Optimizing compiler}
+
+\subsubsection{Deoptimization support}
+
+\newpage
+\newpage
 
 \section{Approach}
 
@@ -125,13 +168,13 @@ The corresponding C++ code is in the Fig.\ref{figure:prime_cplusplus} while the 
 
 \begin{figure}[hbt!]	
          \centering
-         \begin{subfigure}[b]{0.5\textwidth}%in [] it for caption
+         \begin{subfigure}[b]{0.55\textwidth}%in [] it for caption
             \includegraphics[width=\textwidth, angle=90]{figs/prime_cplusplus}
             \caption{ C++ }
             \label{figure:prime_cplusplus}            
         \end{subfigure}
         
-        \begin{subfigure}[b]{0.5\textwidth}
+        \begin{subfigure}[b]{0.55\textwidth}
             \includegraphics[width=\textwidth, angle=90]{figs/prime_JavaScript}
             \caption{JavaScript}
             \label{figure:prime_JavaScript}
@@ -201,6 +244,13 @@ McDuffie, Tina. JavaScript Concepts \& Techniques: Programming Interactive Web S
 Serrano, Nicol‡s, and Juan Pablo Aroztegi. "Ajax frameworks in interactive web apps." Software, IEEE 24.5 (2007): 12-14.
 \bibitem{node}
 Tilkov, Stefan, and Steve Vinoski. "Node. js: Using JavaScript to build high-performance network programs." Internet Computing, IEEE 14.6 (2010): 80-83.
+
+\bibitem{jsmeter1}
+Ratanaworabhan, Paruj, Benjamin Livshits, and Benjamin G. Zorn. "JSMeter: Comparing the behavior of JavaScript benchmarks with real web applications." Proceedings of the 2010 USENIX conference on Web application development. USENIX Association, 2010.
+
+\bibitem{hc}
+Gray, James. "Google Chrome: the making of a cross-platform browser." Linux Journal 2009.185 (2009): 1.
+
 %\bibitem{IEEEhowto:kopka}
 %H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
 %  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
