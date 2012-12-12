@@ -8,9 +8,13 @@
 \usepackage{mdwmath}
 \usepackage{mdwtab}
 \usepackage{eqparbox}
-\usepackage{graphicx,subfigure}
+\usepackage{graphicx}
 \usepackage {epsfig}
 \usepackage{fixltx2e}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
 
 \begin{document}
 
@@ -39,31 +43,81 @@ In this course project, we want to focus on the trace profiling and optimization
 Although JavaScript is traditionally translated into byte code by an interpreter, more and more JavaScript Engines in modern browsers  are designed to compile directly into machine code. Our project will mainly focus on trace profiling\cite{Trace} in V8, and making constructive adjustments according to the optimization techniques we have learned in class. We will use the SunSpider JavaScript benchmark and the V8 benchmark to measure and compare the existing infrastructures, and make a sound analysis of the results. Our overall goal is to understand the common optimization procedures performed by modern JavaScript Engines, as well as the possible performance enhancements with the knowledge we've acquired from EE382V. 
 
 In this paper, we will cover our motivations for doing this project, background information and detailed compilation processes about the V8 engine, profiling results, and comparisons to show the effectiveness of the optimizations done in V8.
-%
+
+
 %As we know internet riches people's life with new and quick information. At the same time people spend more and more timing browsing various websites. How to make the webpages response faster and save people's time becomes important. Infrastructure of cables and servers definitely play an important role, but compilation optimization\cite{Trace} and arrange the HTML tree\cite{Popularity} make difference when the infrastructure is unchangable.
 %
 %In this work, we will tackle both compilation optimization and arrangement of the HTML tree to accelerate the web response. We use TraceMonkey to help build the trace information and several optimization techniques are applied based on the trace structure. We analyze the web site popularity from the HTTP log file and then revise the HTTP tree based on the popularity.
 
-%
 \section{Motivation}
 JavaScript has been widely used in web-based applications to increase richer interactions and visualizations \cite{mcduffie} since it was first supported by Netscape 2 beta back in 1995 \cite{jshistory}. In over fiften years, it has evolved into a variety of frameworks and libraries to enable a more interactive and dynamic web browsing experience \cite{ajax}, or even to build high-performance network programs \cite{node}. Besides its applications in web-based softwares, JavaScript has also gained its popularity from applications such as Adobe Flash, Dashboard widgets in Mac OSX, browser extensions, and web bookmarklets. Apart from its essential role in client-side interactions, JavaScript also became one of the mainstream server-side solutions in recent years\cite{node}. 
 
-As the popularity of web-based applications and services increases, browser performance has become one of the major competitions in the industry. Since JavaScript is what makes modern web pages dynamic and interactive, how to optimize its compilation/interpretation is the key component to building fast and robust modern browsers. In the following two figures, we compared modern web browsers on two JavaScript benchmarks, including Chrome Canary, Chrome, Firefox, Safari, and Opera. In Fig.\ref{figure:v8_benchmark}, it was clear that both Chrome Canary (the latest beta release) and Chrome significantly outperformed any other competitors among all the test cases in the V8 benchmark suites. In Fig.\ref{figure:spider_benchmark}, although it became less obvious that Chrome was superior than its peers in the SunSpider benchmark, we can still see the dominance of V8 in general. V8 benchmark suite was provided by the same community who developed the V8 engine, which was mainly composed of , while SunSpider focused on utility performance such as text manipulation, encryption/decryption, data structure access, and common operations.
+As the popularity of web-based applications and services increases, browser performance has become one of the major competitions in the industry. Since JavaScript is what makes modern web pages dynamic and interactive, how to optimize its compilation/interpretation is the key component to building fast and robust modern browsers. We compared modern web browsers on two JavaScript benchmarks, including Chrome Canary, Chrome, Firefox, Safari, and Opera. In Fig.\ref{figure:v8_benchmark}, it was clear that both Chrome Canary (the latest beta release) and Chrome significantly outperformed any other competitors among all the test cases in the V8 benchmark suites. In Fig.\ref{figure:spider_benchmark}, although it became less obvious that Chrome was superior than its peers in the SunSpider benchmark, we can still see the dominance of V8 in general. V8 benchmark suite was provided by the same community who developed the V8 engine, which was composed of some simulation benchmarks translated from other languages like BCPL, Smalltalk, and Scheme, as well as common operations and manipulation performance, while SunSpider mainly focused on utility performance such as text manipulation, encryption/decryption, data structure access, and common operations.
 
-\begin{figure}[hbt!]	
-	\includegraphics[width=0.5\textwidth]{figs/v8_benchmark.png}
-	 \caption{ Testing results on the V8 Benchmark suite v7}
-	 \label{figure:v8_benchmark}
+
+
+\begin{figure}[H]
+	\begin{subfigure}[H]{0.5\textwidth}
+		\includegraphics[width=\textwidth]{figs/v8_benchmark.png}
+		 \caption{V8 Benchmark suite v7}
+		 \label{figure:v8_benchmark}
+	 \end{subfigure}
+	\begin{subfigure}[H]{0.5\textwidth}
+		\includegraphics[width=\textwidth]{figs/sunspider_benchmark.png}
+		\caption{SunSpider Benchmark v0.9.1}
+		\label{figure:spider_benchmark}
+	\end{subfigure}
+	\caption{ Testing results on 2 common JavaScript Benchmarks}
 \end{figure}
 
-\begin{figure}[hbt!]	
-	\includegraphics[width=0.5\textwidth]{figs/sunspider_benchmark.png}
-	\caption{Testing results on the SunSpider Benchmark v0.9.1}
-	\label{figure:spider_benchmark}
-\end{figure}
+Although it has been pointed out that  the testing results from these popular JavaScript benchmarks don't necessarily indicate the true performance of real-world web applications \cite{jsmeter1}, the fact that Chrome dominated these competitions should somewhat reflect its success in designing a fast and efficient JavaScript engine. 
+
+\section{Background}
+In this section, we will talk about the high-level design and implementation of the most recent V8 JavaScript Engine (v3.15.10), with specific examples to explain the key concepts and principals that make V8 outstanding.
+
+V8 is an open source project started in late 2006 by Google, which ships with their flagship Chrome web browser. Written in C++, V8 can run both as standalone and embedded applications. Its name came from the common automobile engine, and resembled the characteristics of being fast and efficient at the same time.
+
+\subsection{Key design concepts of V8}
+
+\subsubsection{Fast property access}
+As a dynamic programming language, object properties in JavaScript are dynamically modified in runtime, meaning that we can't just have a static memory location offset to access instance variables in programming languages like Java. In most JavaScript engines, property accesses are commonly implemented using a dynamic dictionary lookup to find the memory address, which is typically much slower and less efficient. 
+
+The concept of hidden classes is to dynamically create and change the hidden class of an object whenever a new property is added. Let's look at a straightforward location function to see how it works:
+
+\begin{verbatim}
+function Location(lng, lat){
+    this.lng = lng;
+    this.lat = lat;
+}
+\end{verbatim}
 
 
-\section{Background of V8 Engine}
+
+\subsubsection{Dynamic machine code}
+
+V8 has a JavaScript regular expression engine, which was built from scratch to be automata-based and to produce machine code for regular expressions. 
+
+\subsubsection{Efficient garbage collection}
+
+
+\subsection{V8 compilation process}
+
+\subsubsection{Base compiler}
+
+\subsubsection{Runtime profiler}
+
+\subsubsection{Optimizing compiler}
+
+\subsubsection{Deoptimization support}
+
+\newpage
+\newpage
+
+
+
+
+
+
 
 
 
@@ -112,23 +166,43 @@ JavaScript is slow mainly due to JavaScript programs are untyped, and then compi
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 JavaScript is slower compared with other programming languages, such as C++. Before applying the optimization to the compilation of JavaScript code, we used one example to demonstrate how slow JavaScript was compared with C++. 
-\begin{figure}[hbt!]
-    \centering
-        \subfigure[]{
-            \label{figure:prime_cplusplus}
-            \includegraphics[width=0.64\textwidth]{figs/prime_cplusplus}
-        }
-        \subfigure[]{
-           \label{figure:prime_JavaScript}
-           \includegraphics[width=0.64\textwidth]{figs/prime_JavaScript}
-        }
-    \caption{(a) was the C++ code of calculating the 25000th prime number (b) was the JavaScript code for 25000th prime number.}
-	\label{figure:prime}
- \end{figure}
+
+\begin{figure}[H]	
+         \centering
+         \begin{subfigure}[H]{0.55\textwidth}%in [] it for caption
+            \includegraphics[width=\textwidth]{figs/prime_cplusplus}
+            \caption{ C++ }
+            \label{figure:prime_cplusplus}            
+        \end{subfigure}
+        
+        \begin{subfigure}[H]{0.55\textwidth}
+            \includegraphics[width=\textwidth]{figs/prime_JavaScript}
+            \caption{JavaScript}
+            \label{figure:prime_JavaScript}
+        \end{subfigure}
+    	\caption{the code of calculating the 25000th prime number}
+    	\label{figure:prime}
+\end{figure}
+
+%\begin{figure}[hbt!]
+%    \centering
+%        \subfigure[]{
+%            \label{figure:prime_cplusplus}
+%            \includegraphics[width=0.64\textwidth]{figs/prime_cplusplus}
+%        }
+%        \subfigure[]{
+%           \label{figure:prime_JavaScript}
+%           \includegraphics[width=0.64\textwidth]{figs/prime_JavaScript}
+%        }
+%    \caption{(a) was the C++ code of calculating the 25000th prime number (b) was the JavaScript code for 25000th prime number.}
+%	\label{figure:prime}
+% \end{figure}
+ 
 The example here was to calculate the 25000th prime number\cite{googleIO}. The overall algorithm of calculating the 25000th prime number was illustrated in Algorithm\ref{algorithm:prime}.
 The C++ code implementing the algorithm was in the Fig.\ref{figure:prime_cplusplus} while the JavaScript version was in the Fig.\ref{figure:prime_JavaScript}.
 Running these two different versions of code on the same machine showed that the runtime of C++ code was 5x faster than the JavaScript code. To find the reason of poor performance of the JavaScript code, we performed a profiling on the JavaScript code to determine the runtime of each function.
 First, We executed the command in \eqref{eq:1} to get the log file with profiling information. 
+
 \begin{align}
   \scriptsize & ./out/ia32.release/d8 samples/primes.js --prof\label{eq:1}
 \end{align}
@@ -146,12 +220,30 @@ The output of \eqref{eq:2} provides us the runtime of each function in the JavaS
 Beyond our expectation, the most runtime spent was not on the main function which only consumes less than 12\% of the total runtime. About 30\% of the total runtime was spent on the function env\_access\_off. With this hint, we observed that the access of the identified prime numbers was out of the range. Though with this incorrect range, JavaScript could still give the correct anwser 287107, the runtime increased.
 The $<=$ operator in isPrimeDivisible function should be replaced by $<$ operator to avoid accessing the last element which was not in the existing prime list.
 
+
 \section{Results}
 
 \section{Conclusion}
 
 \section{Acknoledgment}
 
+
+%\begin{figure}[hbt!]	
+%         \centering
+%         \begin{subfigure}[b]{0.55\textwidth}%in [] it for caption
+%            \includegraphics[width=\textwidth, angle=90]{figs/prime_cplusplus}
+%            \caption{ C++ }
+%            \label{figure:prime_cplusplus}            
+%        \end{subfigure}
+%        
+%        \begin{subfigure}[b]{0.55\textwidth}
+%            \includegraphics[width=\textwidth, angle=90]{figs/prime_JavaScript}
+%            \caption{JavaScript}
+%            \label{figure:prime_JavaScript}
+%        \end{subfigure}
+%    	\caption{the code of calculating the 25000th prime number}
+%    	\label{figure:prime}
+%\end{figure}
 
 
 %
@@ -214,6 +306,13 @@ McDuffie, Tina. JavaScript Concepts \& Techniques: Programming Interactive Web S
 Serrano, Nicol‡s, and Juan Pablo Aroztegi. "Ajax frameworks in interactive web apps." Software, IEEE 24.5 (2007): 12-14.
 \bibitem{node}
 Tilkov, Stefan, and Steve Vinoski. "Node. js: Using JavaScript to build high-performance network programs." Internet Computing, IEEE 14.6 (2010): 80-83.
+
+\bibitem{jsmeter1}
+Ratanaworabhan, Paruj, Benjamin Livshits, and Benjamin G. Zorn. "JSMeter: Comparing the behavior of JavaScript benchmarks with real web applications." Proceedings of the 2010 USENIX conference on Web application development. USENIX Association, 2010.
+
+\bibitem{hc}
+Gray, James. "Google Chrome: the making of a cross-platform browser." Linux Journal 2009.185 (2009): 1.
+
 %\bibitem{IEEEhowto:kopka}
 %H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
 %  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
