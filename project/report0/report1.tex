@@ -143,7 +143,8 @@ The output of \eqref{eq:2} provides us the runtime of each function in the JavaS
     \caption{ }
     \label{figure:prime_profiling}
  \end{figure}
-Beyond our expectation, the most runtime spent was not on the main function which only consumes less than 12\% of the total runtime.
+Beyond our expectation, the most runtime spent was not on the main function which only consumes less than 12\% of the total runtime. About 30\% of the total runtime was spent on the function env\_access\_off. With this hint, we observed that the access of the identified prime numbers was out of the range. Though with this incorrect range, JavaScript could still give the correct anwser 287107, the runtime increased.
+The $<=$ operator in isPrimeDivisible function should be replaced by $<$ operator to avoid accessing the last element which was not in the existing prime list.
 
 \section{Results}
 
