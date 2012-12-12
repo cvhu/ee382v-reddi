@@ -37,6 +37,7 @@ In this course project, we want to focus on the trace profiling and optimization
 
 \end{abstract}
 
+\-\\
 \section{Introduction}
 
 Although JavaScript is traditionally translated into bytecode by an interpreter, more and more JavaScript Engines in modern browsers  are designed to compile directly into machine code. Our project will mainly focus on trace profiling\cite{Trace} in V8, and making constructive adjustments according to the optimization techniques we have learned in class. We will use the SunSpider JavaScript benchmark and the V8 benchmark to measure and compare the existing infrastructures, and make a sound analysis of the results. Our overall goal is to understand the common optimization procedures performed by modern JavaScript Engines, as well as the possible performance enhancements with the knowledge we've acquired from EE382V. 
@@ -47,12 +48,11 @@ In this paper, we will cover our motivations for doing this project, background 
 %As we know internet riches people's life with new and quick information. At the same time people spend more and more timing browsing various websites. How to make the webpages response faster and save people's time becomes important. Infrastructure of cables and servers definitely play an important role, but compilation optimization\cite{Trace} and arrange the HTML tree\cite{Popularity} make difference when the infrastructure is unchangable.
 %
 %In this work, we will tackle both compilation optimization and arrangement of the HTML tree to accelerate the web response. We use TraceMonkey to help build the trace information and several optimization techniques are applied based on the trace structure. We analyze the web site popularity from the HTTP log file and then revise the HTTP tree based on the popularity.
-
+\-\\
 \section{Motivation}
 JavaScript has been widely used in web-based applications to increase richer interactions and visualizations \cite{mcduffie} since it was first supported by Netscape 2 beta back in 1995 \cite{jshistory}. In over fiften years, it has evolved into a variety of frameworks and libraries to enable a more interactive and dynamic web browsing experience \cite{ajax}, or even to build high-performance network programs \cite{node}. Besides its applications in web-based softwares, JavaScript has also gained its popularity from applications such as Adobe Flash, Dashboard widgets in Mac OSX, browser extensions, and web bookmarklets. Apart from its essential role in client-side interactions, JavaScript also became one of the mainstream server-side solutions in recent years\cite{node}. 
 
-As the popularity of web-based applications and services increases, browser performance has become one of the major competitions in the industry. Since JavaScript is what makes modern web pages dynamic and interactive, how to optimize its compilation/interpretation is the key component to building fast and robust modern browsers. We compared modern web browsers on two JavaScript benchmarks, including Chrome Canary, Chrome, Firefox, Safari, and Opera. In Fig.\ref{figure:v8_benchmark}, it was clear that both Chrome Canary (the latest beta release) and Chrome significantly outperformed any other competitors among all the test cases in the V8 benchmark suites. In Fig.\ref{figure:spider_benchmark}, although it became less obvious that Chrome was superior than its peers in the SunSpider benchmark, we can still see the dominance of V8 in general. V8 benchmark suite was provided by the same community who developed the V8 engine, which was composed of some simulation benchmarks translated from other languages like BCPL, Smalltalk, and Scheme, as well as common operations and manipulation performance, while SunSpider mainly focused on utility performance such as text manipulation, encryption/decryption, data structure access, and common operations.
-
+As the popularity of web-based applications and services increases, browser performance has become one of the major competitions in the industry. Since JavaScript is what makes modern web pages dynamic and interactive, how to optimize its compilation/interpretation is the key component to building fast and robust modern browsers. We compared modern web browsers on two JavaScript benchmarks, including Chrome Canary, Chrome, Firefox, Safari, and Opera. In Fig.\ref{figure:v8_benchmark}, it was clear that both Chrome Canary (the latest beta release) and Chrome significantly outperformed any other competitors among all the test cases in the V8 benchmark suites.
 
 
 \begin{figure}[H]
@@ -68,8 +68,11 @@ As the popularity of web-based applications and services increases, browser perf
 	\end{subfigure}
 	\caption{ Testing results on 2 common JavaScript Benchmarks}
 \end{figure}
+ In Fig.\ref{figure:spider_benchmark}, although it is less obvious that Chrome was superior than its peers in the SunSpider benchmark, we can still see the dominance of V8 in general. It is due to the fact that most SunSpider benchmarks have a relatively short running time (mostly finishes in a few milliseconds), and the V8 design mainly focuses on heavily-executed applications. V8 benchmark suite was provided by the same community who developed the V8 engine, which was composed of some simulation benchmarks translated from other languages like BCPL, Smalltalk, and Scheme, as well as common operations and manipulation performance, while SunSpider mainly focused on utility performance such as text manipulation, encryption/decryption, data structure access, and common operations.
 
 Although it has been pointed out that  the testing results from these popular JavaScript benchmarks don't necessarily indicate the true performance of real-world web applications \cite{jsmeter1}, the fact that Chrome dominated these competitions should somewhat reflect its success in designing a fast and efficient JavaScript engine. 
+
+\-\\
 
 \section{Background}
 In this section, we will talk about the high-level design and implementation of the most recent V8 JavaScript Engine (v3.15.10), with specific examples to explain the key concepts and principals that make V8 outstanding.
@@ -89,7 +92,7 @@ function Location(lng, lat){
     this.lat = lat;
 }
 \end{verbatim}
-\-\\
+
 
 \begin{itemize}
 \item Initialize a hidden class $C_0$ for Location objects with no properties to point to\\
@@ -104,21 +107,38 @@ Unlike conventional interpreter for the most dynamic programming languages, V8 c
 
 Since V8 automatically predicts same hidden class used by all objects accessed in the same location, there might be incorrectly-patched inline caches with mismatched hidden classes, in which case V8 will handle the cache misses and redirect the object pointer to the correct hidden class. V8 also has a JavaScript regular expression engine, which was built from scratch to be automata-based and to produce machine code for regular expressions. 
 
-Both the hidden classes techniques and the machine code generation provide benefits to speed and efficiency when many objects in the code share the same types and frequencies of property accesses, which can effectively improve the JavaScript runtime performance in most programs.\\
+Both the hidden classes techniques and the machine code generation provide benefits to speed and efficiency when many objects in the code share a high likelihood of same types and usages of property accesses, which can effectively improve the JavaScript runtime performance in most programs.\\
 
 
 \subsubsection{Efficient garbage collection}
+Garbage collection is used to recollect memory resource that is no longer necessary and used by objects in runtime, which plays a huge role in deploying high-speed object allocation and avoiding memory fragmentation. To assemble a fast and accurate garbage collector for JavaScript compilation, V8 takes advantage of three design criteria:
 
+\begin{itemize}
+\item V8 employs a simple stop-the-world garbage collector, which means programs must pause execution during a garbage collection cycle. This guarantees that new objects are not allocated to a processed memory space that might become unreachable
+\item Because of the stop-the-world design decision, V8 should only process a portion of the object heap to reduce the impact of stopping during most garbage collection cycles
+\item To avoid memory leaks caused by pointer faults, V8 must knows the exact memory location of every objects and pointers
+\end{itemize}
+\-\\
 
 \subsection{V8 compilation process}
+In V8, adaptive compilation is used to focus the optimization on the hot code that is executed again and again, and leave the rest as it is, which should improve the start-up overhead and maximum performance. To achieve this lazy optimization schema, V8 engine has the following four general components:\\
 
 \subsubsection{Base compiler}
+When the program execution first initializes, a full compiler generates a raw machine code with almost no optimization included. This process is aimed to perform fast code generation with the assumption that everything is not frequently-executed until proved otherwise during the runtime.\\
 
 \subsubsection{Runtime profiler}
+During the runtime, a system profiler is executed on the side to monitor the program execution and recognizes the portions of code that are heavily-executed and hence need to be optimized.\\
 
 \subsubsection{Optimizing compiler}
+Once the runtime profiler identifies where the hot code is, this second compiler carries out the heavy optimizations and recompiles to these targets based on the typing collected by the base compiler. During this process, static single assignment forms are used to conduct optimizations such as loop-invariant code motion, linear-scan register allocation and function inlining. \\
 
 \subsubsection{Deoptimization support}
+This feature allows the compiler to roll back from the optimized code to the original machine code generated by the base compiler, in case the hot code identification turns out to be overly optimistic. This support also gives the optimizing compiler more freedom when it is making assumptions during optimization.
+
+\section{Approach}
+JavaScript is slow mainly due to JavaScript programs are untyped, and then compiled and run on the fly. Dynamic compilation is a great complement to static one. But completely replacing the optimized-to-death static compilation with JIT will lose the performance. 
+%
+%
 
 %%%%%%Prime Algorithm starts here%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{algorithm}[hbt!]
@@ -197,7 +217,7 @@ JavaScript is slower compared with other programming languages, such as C++. Bef
 
 The example here was to calculate the $25000$th prime number\cite{googleIO}. The overall algorithm of calculating the $25000$th prime number was illustrated in Algorithm\ref{algorithm:prime}.
 The C++ code implementing the algorithm was in the Fig.\ref{figure:prime_cplusplus} while the JavaScript version was in the Fig.\ref{figure:prime_JavaScript}.
-Running these two different versions of code on the same machine showed that the runtime of C++ code was 5x faster than the JavaScript code. To find the reason of poor performance of the JavaScript code, we performed a profiling on the JavaScript code to determine the runtime of each function.
+Running these two different versions of code on the same machine showed that the runtime of C++ code was 9.6x faster than the JavaScript code. To find the reason of poor performance of the JavaScript code, we performed a profiling on the JavaScript code to determine the runtime of each function.
 First, We executed the command in \eqref{eq:1} to get the log file with profiling information. 
 \begin{align}
   \scriptsize & ./out/ia32.release/d8 samples/primes.js --prof\label{eq:1}
@@ -212,7 +232,7 @@ The output of \eqref{eq:2} provides us the runtime of each function in the JavaS
 Beyond our expectation, the most runtime was not spent on the main function. The main function only consumed less than 12\% of the total runtime while about 30\% of the total runtime was spent on the function env\_access\_off. With this hint, we noticed that the access of the last element, this.prime[this.prime\_count], was out of the range of identified prime numbers. 
 Though with this incorrect access, JavaScript could still give the correct $25000$th prime number - 287107, the runtime increased drametically.
 
-By correcting the access range in the isPrimeDivisible function, the new run time was only about 1.17 times of the C++ code. This improvement illustrated that JavaScript was slower tan C++, but was not much slower. 
+By correcting the access range in the isPrimeDivisible function, the new run time was only about 1.5 times of the C++ code. This improvement illustrated that JavaScript was slower tan C++, but was not much slower. 
 The profiling with the out-of-bounds fixed was in Fig.\ref{figure:prime_profiling_2}. From the new profiling, we could observe that more than 99\% was spent on the main function.
 \begin{figure}[H]
     \centering
@@ -221,25 +241,24 @@ The profiling with the out-of-bounds fixed was in Fig.\ref{figure:prime_profilin
     \label{figure:prime_profiling_2}
 \end{figure}
 
-
 \section{Results}
 The experiments are conducted on an Intel Core i7 2.3GHz Mac OS X  with 8GB memory.
 In Table~\ref{table:result1}, we compare the runtime of the C++ code with the JavaScript version in Fig.\ref{figure:prime}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\vspace{-0.2in}
-%\begin{table*} [hbt!]
-\begin{table*} [hbt!]
+\begin{table} [hbt!]
 %\vspace{-0.1in}
 \centering
 \caption{Comparisons between C++, JavaScript and Improved JavaScript}
 \label{table:result1}
 \begin{threeparttable}
 \begin{scriptsize}
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|c|c|}
 \hline
-Benchmarks & \multicolumn{3}{|c}{C++} & \multicolumn{4}{|c}{JavaScript} & \multicolumn{4}{|c|}{Improved JavaScript}\\
-\cline{2-12}
-           & real (s)& user (s) & sys (s)& real (s)& user (s) & sys (s)& \% of main & real (s)& user (s) & sys (s)& \% of main\\
+Benchmarks & \multicolumn{1}{|c}{C++} & \multicolumn{2}{|c}{JavaScript} & \multicolumn{2}{|c|}{Improved JavaScript}\\
+\cline{2-6}
+           & runtime (s) & runtime (s)& main & runtime (s)& main\\
+           &1.3          &12.5        &11.5\%&1.9         &99.4\%\\
 \hline
 \end{tabular}
 \end{scriptsize}
@@ -252,14 +271,13 @@ Benchmarks & \multicolumn{3}{|c}{C++} & \multicolumn{4}{|c}{JavaScript} & \multi
 %\end{tablenotes}
 \end{threeparttable}
 \vspace{-0.2in}
-\end{table*}
+\end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Conclusion}
-
+conclusion
 \section{Acknoledgment}
 We are very grateful to Dr. Vijay Reddi for the discussions and advices to the scope and direction of this paper.
-
 %\begin{figure}[hbt!]	
 %         \centering
 %         \begin{subfigure}[b]{0.55\textwidth}%in [] it for caption
